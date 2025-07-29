@@ -25,10 +25,10 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 
 ## M3 – Lobby Screen
 
-- [ ] Design `/` route with form for Player 1 & Player 2 names.
-- [ ] Validate non-empty names, show inline errors.
-- [ ] Persist names in GameContext and route to `/play`.
-- [ ] “Start Game” CTA styling & animation.
+- [x] Design `/` route with form for Player 1 & Player 2 names. - **COMPLETED**: Created LobbyForm component with clean, modern design featuring player name inputs with VS divider and gradient styling.
+- [x] Validate non-empty names, show inline errors. - **COMPLETED**: Implemented comprehensive validation including required fields, length limits (2-20 chars), duplicate name prevention, and real-time error clearing.
+- [x] Persist names in GameContext and route to `/play`. - **COMPLETED**: Implemented Zustand store for game state management with comprehensive game logic, player state tracking, and automatic routing to `/play` after form submission.
+- [x] “Start Game” CTA styling & animation.
 
 ## M4 – Gameplay Integration & Scoreboard
 
