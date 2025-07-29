@@ -83,9 +83,12 @@ export function LobbyForm({ className }: LobbyFormProps) {
   const isValid = form.formState.isValid;
 
   return (
-    <div className={cn("w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto", className)}>
+    <div className={cn("w-full", className)}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 sm:space-y-6">
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="space-y-4 sm:space-y-6"
+        >
           {/* Player 1 Input */}
           <FormField
             control={form.control}
@@ -178,7 +181,9 @@ export function LobbyForm({ className }: LobbyFormProps) {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-4 sm:h-5 w-4 sm:w-5 border-b-2 border-white mr-2 sm:mr-3"></div>
-                    <span className="animate-pulse text-sm sm:text-base">Starting Game...</span>
+                    <span className="animate-pulse text-sm sm:text-base">
+                      Starting Game...
+                    </span>
                   </>
                 ) : (
                   <>
