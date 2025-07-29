@@ -5,7 +5,13 @@ import {
   calculateRoundScore,
   calculateTurnScore,
 } from "./game-utils";
-import type { GameStore, Player, TileState, GuessEvaluation } from "./types";
+import type {
+  GameStore,
+  Player,
+  TileState,
+  GuessEvaluation,
+  PlayerState,
+} from "./types";
 
 const MAX_GUESSES = 6;
 const MAX_ROUNDS = 5;
@@ -24,6 +30,29 @@ const getBestGuess = (guesses: string[], secretWord: string): string => {
 
   return guesses[guesses.length - 1];
 };
+
+// Helper function to create turn history entry
+const createTurnHistoryEntry = (
+  round: number,
+  turnNumber: number,
+  answerKey: string,
+  player1: PlayerState,
+  player2: PlayerState,
+  player1Score: number,
+  player2Score: number,
+  winner: Player | "tie" | null
+) => ({
+  round,
+  turnNumber,
+  answerKey,
+  player1BestGuess: getBestGuess(player1.guesses, answerKey),
+  player2BestGuess: getBestGuess(player2.guesses, answerKey),
+  player1Guesses: [...player1.guesses],
+  player2Guesses: [...player2.guesses],
+  player1Score,
+  player2Score,
+  winner,
+});
 
 const createInitialPlayerState = (name: string) => ({
   name,
@@ -53,6 +82,10 @@ const createInitialGameState = () => ({
   // Round state
   roundScores: [],
   currentRoundWinner: null,
+
+  // Game history
+  turnHistory: [],
+  currentTurnNumber: 1,
 
   // UI state
   isLoading: false,
@@ -84,6 +117,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       player2: createInitialPlayerState(player2Name),
       roundScores: [],
       currentRoundWinner: null,
+      turnHistory: [],
+      currentTurnNumber: 1,
       isLoading: false,
       error: null,
       showCorrectGuessDialog: false,
@@ -234,11 +269,25 @@ export const useGameStore = create<GameStore>((set, get) => ({
         winner: roundWinner,
       };
 
+      // Create turn history entry
+      const turnHistoryEntry = createTurnHistoryEntry(
+        state.currentRound,
+        state.currentTurnNumber,
+        state.secretWord,
+        player1,
+        player2,
+        player1TurnScore,
+        player2TurnScore,
+        roundWinner
+      );
+
       console.log(roundScore);
+      console.log("Turn History Entry:", turnHistoryEntry);
 
       set({
         roundScores: [...state.roundScores, roundScore],
         currentRoundWinner: roundWinner,
+        turnHistory: [...state.turnHistory, turnHistoryEntry],
       });
 
       // Check if game is complete
@@ -253,6 +302,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
         set({
           currentRound: state.currentRound + 1,
+          currentTurnNumber: state.currentTurnNumber + 1,
           currentPlayer: "player1",
           secretWord: newSecretWord,
           showCorrectGuessDialog: false,

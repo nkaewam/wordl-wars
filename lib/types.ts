@@ -18,6 +18,19 @@ export interface GuessEvaluation {
   score: number;
 }
 
+export interface TurnHistory {
+  round: number;
+  turnNumber: number;
+  answerKey: string;
+  player1BestGuess: string;
+  player2BestGuess: string;
+  player1Guesses: string[];
+  player2Guesses: string[];
+  player1Score: number;
+  player2Score: number;
+  winner: Player | "tie" | null;
+}
+
 export interface RoundScore {
   player1Score: number;
   player2Score: number;
@@ -52,6 +65,10 @@ export interface GameState {
   // Round state
   roundScores: RoundScore[];
   currentRoundWinner: Player | "tie" | null;
+
+  // Game history
+  turnHistory: TurnHistory[];
+  currentTurnNumber: number;
 
   // UI state
   isLoading: boolean;
