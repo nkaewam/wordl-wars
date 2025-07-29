@@ -1,16 +1,11 @@
 import { create } from "zustand";
-import {
-  getRandomWord,
-  evaluateGuess,
-  calculateRoundScore,
-  calculateTurnScore,
-} from "./game-utils";
+import { getRandomWord, evaluateGuess, calculateTurnScore } from "./game-utils";
 import type {
   GameStore,
   Player,
-  TileState,
-  GuessEvaluation,
   PlayerState,
+  PlayerTurn,
+  TurnHistory,
 } from "./types";
 
 const MAX_GUESSES = 6;
@@ -31,24 +26,55 @@ const getBestGuess = (guesses: string[], secretWord: string): string => {
   return guesses[guesses.length - 1];
 };
 
+// Helper function to create player turn entry
+const createPlayerTurn = (
+  player: Player,
+  round: number,
+  turnNumber: number,
+  answerKey: string,
+  playerState: PlayerState,
+  score: number
+): PlayerTurn => ({
+  player,
+  round,
+  turnNumber,
+  answerKey,
+  guesses: [...playerState.guesses],
+  bestGuess: getBestGuess(playerState.guesses, answerKey),
+  score,
+  completed: true,
+});
+
 // Helper function to create turn history entry
 const createTurnHistoryEntry = (
   round: number,
   turnNumber: number,
-  answerKey: string,
+  player1AnswerKey: string,
+  player2AnswerKey: string,
   player1: PlayerState,
   player2: PlayerState,
   player1Score: number,
   player2Score: number,
   winner: Player | "tie" | null
-) => ({
+): TurnHistory => ({
   round,
   turnNumber,
-  answerKey,
-  player1BestGuess: getBestGuess(player1.guesses, answerKey),
-  player2BestGuess: getBestGuess(player2.guesses, answerKey),
-  player1Guesses: [...player1.guesses],
-  player2Guesses: [...player2.guesses],
+  player1Turn: createPlayerTurn(
+    "player1",
+    round,
+    turnNumber,
+    player1AnswerKey,
+    player1,
+    player1Score
+  ),
+  player2Turn: createPlayerTurn(
+    "player2",
+    round,
+    turnNumber,
+    player2AnswerKey,
+    player2,
+    player2Score
+  ),
   player1Score,
   player2Score,
   winner,
@@ -79,6 +105,10 @@ const createInitialGameState = () => ({
   player1: createInitialPlayerState(""),
   player2: createInitialPlayerState(""),
 
+  // Player answer keys (each player has their own word)
+  player1AnswerKey: "",
+  player2AnswerKey: "",
+
   // Round state
   roundScores: [],
   currentRoundWinner: null,
@@ -103,7 +133,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   // Game setup actions
   startGame: (player1Name: string, player2Name: string) => {
-    const secretWord = getRandomWord();
+    const player1AnswerKey = getRandomWord();
+    const player2AnswerKey = getRandomWord();
 
     set({
       player1Name,
@@ -112,7 +143,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentRound: 1,
       isGameActive: true,
       isGameComplete: false,
-      secretWord,
+      secretWord: player1AnswerKey, // Start with player1's word
+      player1AnswerKey,
+      player2AnswerKey,
       player1: createInitialPlayerState(player1Name),
       player2: createInitialPlayerState(player2Name),
       roundScores: [],
@@ -230,12 +263,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const player1TurnComplete =
       player1.guesses.length >= MAX_GUESSES ||
       player1.guesses.some(
-        (guess) => evaluateGuess(guess, state.secretWord).isCorrect
+        (guess) => evaluateGuess(guess, state.player1AnswerKey).isCorrect
       );
     const player2TurnComplete =
       player2.guesses.length >= MAX_GUESSES ||
       player2.guesses.some(
-        (guess) => evaluateGuess(guess, state.secretWord).isCorrect
+        (guess) => evaluateGuess(guess, state.player2AnswerKey).isCorrect
       );
 
     console.log(player1, player2);
@@ -245,11 +278,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
       // Both players have completed their turns, determine round winner
       const player1TurnScore = calculateTurnScore(
         player1.guesses,
-        state.secretWord
+        state.player1AnswerKey
       );
       const player2TurnScore = calculateTurnScore(
         player2.guesses,
-        state.secretWord
+        state.player2AnswerKey
       );
 
       // Determine round winner
@@ -273,7 +306,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       const turnHistoryEntry = createTurnHistoryEntry(
         state.currentRound,
         state.currentTurnNumber,
-        state.secretWord,
+        state.player1AnswerKey,
+        state.player2AnswerKey,
         player1,
         player2,
         player1TurnScore,
@@ -298,13 +332,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
       } else {
         // Start next round
-        const newSecretWord = getRandomWord();
+        const newPlayer1AnswerKey = getRandomWord();
+        const newPlayer2AnswerKey = getRandomWord();
 
         set({
           currentRound: state.currentRound + 1,
           currentTurnNumber: state.currentTurnNumber + 1,
           currentPlayer: "player1",
-          secretWord: newSecretWord,
+          secretWord: newPlayer1AnswerKey, // Start with player1's new word
+          player1AnswerKey: newPlayer1AnswerKey,
+          player2AnswerKey: newPlayer2AnswerKey,
           showCorrectGuessDialog: false,
           showAnswerDialog: false,
           correctGuessPlayer: null,
@@ -324,14 +361,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
       }
     } else {
-      // Switch to next player for their turn and randomize the word
+      // Switch to next player for their turn
       const nextPlayer: Player =
         currentPlayer === "player1" ? "player2" : "player1";
-      const newSecretWord = getRandomWord();
+
+      // Set the secret word to the next player's answer key
+      const nextPlayerAnswerKey =
+        nextPlayer === "player1"
+          ? state.player1AnswerKey
+          : state.player2AnswerKey;
 
       set({
         currentPlayer: nextPlayer,
-        secretWord: newSecretWord,
+        secretWord: nextPlayerAnswerKey,
         showCorrectGuessDialog: false,
         showAnswerDialog: false,
         // Reset the next player's state for the new word

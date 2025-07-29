@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useGameStore } from "@/lib/game-store";
 import { Button } from "@/components/ui/button";
 import { Trophy, Medal, Award } from "lucide-react";
+import { ResultWordRow } from "@/components/result-word-row";
 
 export default function ResultPage() {
   const router = useRouter();
@@ -53,6 +54,8 @@ export default function ResultPage() {
     router.push("/");
   };
 
+  console.log(turnHistory);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
       <div className="max-w-4xl w-full space-y-8">
@@ -98,10 +101,10 @@ export default function ResultPage() {
             <div
               className={`p-4 rounded-lg border-2 ${
                 winner === "player1"
-                  ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20"
+                  ? "border-yellow-500 bg-yellow-950/20"
                   : winner === "player2"
-                  ? "border-gray-300 bg-gray-50 dark:bg-gray-900/20"
-                  : "border-blue-300 bg-blue-50 dark:bg-blue-950/20"
+                  ? "border-gray-300 bg-gray-900/20"
+                  : "border-blue-300 bg-blue-950/20"
               }`}
             >
               <div className="flex items-center justify-between mb-3">
@@ -125,10 +128,10 @@ export default function ResultPage() {
             <div
               className={`p-4 rounded-lg border-2 ${
                 winner === "player2"
-                  ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20"
+                  ? "border-yellow-500 bg-yellow-950/20"
                   : winner === "player1"
-                  ? "border-gray-300 bg-gray-50 dark:bg-gray-900/20"
-                  : "border-purple-300 bg-purple-50 dark:bg-purple-950/20"
+                  ? "border-gray-300 bg-gray-900/20"
+                  : "border-purple-300 bg-purple-950/20"
               }`}
             >
               <div className="flex items-center justify-between mb-3">
@@ -156,62 +159,145 @@ export default function ResultPage() {
             Round-by-Round Breakdown
           </h2>
 
-          <div className="space-y-3">
-            {roundScores.map((round, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-              >
-                <span className="font-medium">Round {index + 1}</span>
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm">
-                    {player1Name}: {round.player1Score}
-                  </span>
-                  <span className="text-sm">
-                    {player2Name}: {round.player2Score}
+          <div className="space-y-4">
+            {turnHistory.map((turn, index) => (
+              <div key={index} className="p-4 bg-muted/50 rounded-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-lg">
+                    Round {turn.round}
                   </span>
                   <span
-                    className={`text-sm font-medium ${
-                      round.winner === "player1"
-                        ? "text-blue-600"
-                        : round.winner === "player2"
-                        ? "text-purple-600"
-                        : "text-gray-600"
+                    className={`text-sm font-medium px-3 py-1 rounded-full ${
+                      turn.winner === "player1"
+                        ? "text-blue-600 bg-blue-900/20"
+                        : turn.winner === "player2"
+                        ? "text-purple-600 bg-purple-900/20"
+                        : "text-gray-600 bg-gray-900/20"
                     }`}
                   >
-                    {round.winner === "player1"
+                    {turn.winner === "player1"
                       ? `${player1Name} wins`
-                      : round.winner === "player2"
+                      : turn.winner === "player2"
                       ? `${player2Name} wins`
                       : "Tie"}
                   </span>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Player 1 Turn */}
+                  <div className="p-4 bg-card rounded-lg border">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-blue-600">
+                        {player1Name}
+                      </h4>
+                      <span className="text-sm font-medium bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
+                        {turn.player1Score} pts
+                      </span>
+                    </div>
+
+                    {/* Best Guess Row */}
+                    <div className="mb-3">
+                      {turn.player1Turn.bestGuess ? (
+                        <ResultWordRow
+                          word={turn.player1Turn.bestGuess}
+                          tileStates={turn.player1Turn.bestGuess
+                            .split("")
+                            .map((letter, letterIndex) => {
+                              const answerKey = turn.player1Turn.answerKey;
+                              if (
+                                letter.toLowerCase() ===
+                                answerKey[letterIndex].toLowerCase()
+                              )
+                                return "correct";
+                              if (
+                                answerKey
+                                  .toLowerCase()
+                                  .includes(letter.toLowerCase())
+                              )
+                                return "present";
+                              return "absent";
+                            })}
+                          className="mx-auto"
+                        />
+                      ) : (
+                        <div className="text-center text-muted-foreground text-sm">
+                          No guesses made
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">Answer:</span>
+                        <span className="font-mono font-medium bg-muted px-2 py-1 rounded">
+                          {turn.player1Turn.answerKey}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Player 2 Turn */}
+                  <div className="p-4 bg-card rounded-lg border">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-purple-600">
+                        {player2Name}
+                      </h4>
+                      <span className="text-sm font-medium bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 px-2 py-1 rounded">
+                        {turn.player2Score} pts
+                      </span>
+                    </div>
+
+                    {/* Best Guess Row */}
+                    <div className="mb-3">
+                      {turn.player2Turn.bestGuess ? (
+                        <ResultWordRow
+                          word={turn.player2Turn.bestGuess}
+                          tileStates={turn.player2Turn.bestGuess
+                            .split("")
+                            .map((letter, letterIndex) => {
+                              const answerKey = turn.player2Turn.answerKey;
+                              if (
+                                letter.toLowerCase() ===
+                                answerKey[letterIndex].toLowerCase()
+                              )
+                                return "correct";
+                              if (
+                                answerKey
+                                  .toLowerCase()
+                                  .includes(letter.toLowerCase())
+                              )
+                                return "present";
+                              return "absent";
+                            })}
+                          className="mx-auto"
+                        />
+                      ) : (
+                        <div className="text-center text-muted-foreground text-sm">
+                          No guesses made
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">Answer:</span>
+                        <span className="font-mono font-medium bg-muted px-2 py-1 rounded">
+                          {turn.player2Turn.answerKey}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">
+                          Guesses used:
+                        </span>
+                        <span className="font-medium">
+                          {turn.player2Turn.guesses.length}/6
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Game Statistics */}
-        <div className="bg-card rounded-lg border p-6 space-y-4">
-          <h2 className="text-2xl font-semibold text-center">
-            Game Statistics
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-muted/50 rounded-lg">
-              <div className="text-2xl font-bold">{turnHistory.length}</div>
-              <div className="text-sm text-muted-foreground">Total Turns</div>
-            </div>
-            <div className="text-center p-4 bg-muted/50 rounded-lg">
-              <div className="text-2xl font-bold">{roundScores.length}</div>
-              <div className="text-sm text-muted-foreground">Rounds Played</div>
-            </div>
-            <div className="text-center p-4 bg-muted/50 rounded-lg">
-              <div className="text-2xl font-bold">
-                {player1TotalScore + player2TotalScore}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Points</div>
-            </div>
           </div>
         </div>
 
