@@ -78,7 +78,7 @@
   --sidebar-border: oklch(0.3 0.03 30);
   --sidebar-ring: oklch(0.65 0.15 60);
   
-  /* Wordle Wars Game Colors - Updated for earthy theme */
+  /* Wordl Wars Game Colors - Updated for earthy theme */
   --tile-correct: oklch(0.55 0.12 180); /* Muted green/teal */
   --tile-present: oklch(0.65 0.15 60); /* Muted orange/brown */
   --tile-absent: oklch(0.4 0.02 200); /* Darker teal */

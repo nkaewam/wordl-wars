@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wordle Wars",
-  description: "Wordle Wars",
+  title: "Wordl Wars",
+  description: "Wordl Wars",
 };
 
 export default function RootLayout({

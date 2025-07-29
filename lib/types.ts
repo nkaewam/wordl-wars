@@ -1,5 +1,5 @@
 /**
- * TypeScript types and interfaces for Wordle Wars
+ * TypeScript types and interfaces for Wordl Wars
  */
 
 export type TileState = "correct" | "present" | "absent";

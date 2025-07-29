@@ -1,4 +1,4 @@
-# Wordle Wars – Milestone Action Items
+# Wordl Wars – Milestone Action Items
 
 This document breaks down each milestone from `docs/task.md` into actionable tasks. Check items off as you progress.
 
@@ -8,7 +8,7 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 
 - [x] Load and preprocess 5-letter word list - **UPDATED**: Created dual file system with `all-words.txt` (comprehensive validation list 2500+ words) and `words.txt` (top 100 common words by frequency for answers).
 - [x] Implement `getRandomWord()` utility - **COMPLETED**: Returns random words from answer list only.
-- [x] Build `evaluateGuess(guess, answer)` function returning tile states. - **COMPLETED**: Implements Wordle-style tile evaluation with correct/present/absent states and scoring.
+- [x] Build `evaluateGuess(guess, answer)` function returning tile states. - **COMPLETED**: Implements Wordl-style tile evaluation with correct/present/absent states and scoring.
 - [x] Create score calculation helper (`calculateRoundScore`). - **COMPLETED**: Calculates round scores with bonus points for correct guesses and determines winner.
 - [ ] Implement turn & round manager (context or hook).
 - [ ] Define TypeScript types/interfaces for Game, Player, Turn, TileState.
@@ -21,7 +21,7 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 - [x] Apply custom styles/theme to match game colors (🟩, 🟨, ⬛).
 - [x] `OnScreenKeyboard` with clickable keys + key state coloring. - **COMPLETED**: Created OnScreenKeyboard component with QWERTY layout, clickable keys, and state-based coloring (correct=green, present=yellow, absent=gray).
 - [x] `TurnIndicator` showing current player and round. - **COMPLETED**: Created TurnIndicator component displaying current player, round progress, and visual turn indicators with smooth transitions.
-- [x] Global CSS variables & basic theme colors. - **COMPLETED**: Added Wordle Wars game colors to global CSS including tile states, keyboard colors, and player theme colors.
+- [x] Global CSS variables & basic theme colors. - **COMPLETED**: Added Wordl Wars game colors to global CSS including tile states, keyboard colors, and player theme colors.
 
 ## M3 – Lobby Screen
 

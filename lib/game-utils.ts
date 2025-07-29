@@ -1,5 +1,5 @@
 /**
- * Game utilities for Wordle Wars
+ * Game utilities for Wordl Wars
  */
 
 import { ALL_WORDS, ANSWER_WORDS } from "@/constant/words";

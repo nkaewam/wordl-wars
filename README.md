@@ -1,6 +1,6 @@
-# Wordle Wars
+# Wordl Wars
 
-A two-player, face-to-face twist on the classic Wordle guessing game – entirely offline and playable right in your browser.
+A two-player, face-to-face twist on the classic Wordl guessing game – entirely offline and playable right in your browser.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ A two-player, face-to-face twist on the classic Wordle guessing game – entirel
 
 ## Overview
 
-Wordle Wars brings competitive energy to Wordle by allowing **two players** to battle for the highest total score over five rounds. The app ships as a 100 % front-end web application – no servers, accounts, or internet connection required after the first load.
+Wordl Wars brings competitive energy to Wordl by allowing **two players** to battle for the highest total score over five rounds. The app ships as a 100 % front-end web application – no servers, accounts, or internet connection required after the first load.
 
 ## Gameplay
 
@@ -44,7 +44,7 @@ A perfect guess (`🟩🟩🟩🟩🟩`) awards the full 5 points even if achiev
 ## Features
 
 - 🔄 _Turn-based_ play on a single device
-- 🔡 Familiar Wordle color feedback (🟩 correct, 🟨 misplaced, ⬛ absent)
+- 🔡 Familiar Wordl color feedback (🟩 correct, 🟨 misplaced, ⬛ absent)
 - 📊 Real-time score board & turn indicator
 - 🕹️ Keyboard support (physical and on-screen)
 - 📱 Responsive design & touch friendliness
@@ -82,7 +82,7 @@ You can host the generated `out/` folder on any static hosting (GitHub Pages, Ne
 ## Project Structure
 
 ```text
-wordle-wars/
+wordl-wars/
 ├── app/            # Next.js App Router pages
 ├── components/     # Reusable UI components
 ├── lib/            # Game logic & util helpers

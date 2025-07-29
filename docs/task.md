@@ -1,4 +1,4 @@
-# Wordle Wars – Development Tasks & Approach
+# Wordl Wars – Development Tasks & Approach
 
 > **Scope:** Front-end-only game built with Next.js & React. No backend services.
 
