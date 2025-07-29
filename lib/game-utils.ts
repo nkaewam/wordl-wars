@@ -71,7 +71,15 @@ export function evaluateGuess(guess: string, answer: string): GuessEvaluation {
   const normalizedAnswer = answer.toLowerCase();
 
   if (normalizedGuess.length !== 5 || normalizedAnswer.length !== 5) {
-    throw new Error("Both guess and answer must be 5 letters long");
+    return {
+      tiles: Array.from({ length: 5 }, (_, i) => ({
+        letter: normalizedGuess[i] || "",
+        state: "absent",
+        position: i,
+      })),
+      isCorrect: false,
+      score: 0,
+    };
   }
 
   const tiles: TileEvaluation[] = [];

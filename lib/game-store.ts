@@ -477,51 +477,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Stop the timer first
     set({ isTimerActive: false, timeRemaining: 0 });
 
-    // If player has no guesses, force submit a "time's up" guess
-    if (player.guesses.length === 0) {
-      const randomWord = "TIMES";
-      const evaluation = evaluateGuess(randomWord, state.secretWord);
-      const tileStates = evaluation.tiles.map((tile) => tile.state);
+    // Calculate turn score and update player score with whatever guesses they have
+    const turnScore = calculateTurnScore(player.guesses, state.secretWord);
+    const finalUpdatedPlayer = {
+      ...player,
+      score: player.score + turnScore,
+    };
 
-      // Update player state directly
-      const updatedPlayer = {
-        ...player,
-        guesses: [randomWord],
-        tileStates: [tileStates],
-        currentGuess: "",
-      };
+    set({
+      [currentPlayer]: finalUpdatedPlayer,
+    });
 
-      // Calculate turn score and update player score
-      const turnScore = calculateTurnScore(
-        updatedPlayer.guesses,
-        state.secretWord
-      );
-      const finalUpdatedPlayer = {
-        ...updatedPlayer,
-        score: player.score + turnScore,
-      };
-
-      set({
-        [currentPlayer]: finalUpdatedPlayer,
-      });
-
-      // Show answer dialog since they didn't complete the word
-      get().openAnswerDialog(currentPlayer);
-    } else {
-      // If player has some guesses but time ran out, force end their turn
-      // Calculate turn score and update player score
-      const turnScore = calculateTurnScore(player.guesses, state.secretWord);
-      const finalUpdatedPlayer = {
-        ...player,
-        score: player.score + turnScore,
-      };
-
-      set({
-        [currentPlayer]: finalUpdatedPlayer,
-      });
-
-      // Show answer dialog since they didn't complete the word
-      get().openAnswerDialog(currentPlayer);
-    }
+    // Show answer dialog since time ran out
+    get().openAnswerDialog(currentPlayer);
   },
 }));
