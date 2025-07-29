@@ -133,6 +133,7 @@ export default function GamePage() {
           onEnter={handleEnter}
           keyStates={keyStates}
           disabled={!isCurrentPlayerTurn}
+          isEnterDisabled={currentPlayerState.currentGuess.length !== 5}
         />
       </div>
     </main>
