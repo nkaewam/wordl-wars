@@ -22,7 +22,7 @@ export default function Home() {
 
         {/* Game Info */}
         <div className="text-center text-sm text-muted-foreground mt-8">
-          5 rounds • 6 guesses per round • Best score wins!
+          3 rounds • 6 guesses per round • Best score wins!
         </div>
       </div>
     </main>
