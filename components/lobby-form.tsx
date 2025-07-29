@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useGameStore } from "@/lib/game-store";
+import { Rocket } from "lucide-react";
 
 // Form validation schema
 const lobbyFormSchema = z
@@ -152,10 +153,10 @@ export function LobbyForm({ className }: LobbyFormProps) {
               type="submit"
               disabled={isSubmitting || !isValid}
               className={cn(
-                "w-full h-12 py-4 px-6 text-lg font-bold text-primary-foreground rounded-xl transition-all duration-300 transform cursor-pointer",
+                "w-full h-16 py-4 px-6 text-xl font-bold text-primary-foreground border-0 border-b-[#855A3A] border-b-4 rounded-xl transition-all duration-300 transform cursor-pointer",
                 "focus:outline-none focus:ring-4 focus:ring-primary/50",
                 "shadow-lg hover:shadow-xl active:shadow-md",
-                "border-0 relative overflow-hidden",
+                "relative overflow-hidden",
                 // Enhanced gradient and animations
                 isSubmitting || !isValid
                   ? "bg-muted cursor-not-allowed shadow-none hover:shadow-none"
@@ -181,7 +182,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
                   </>
                 ) : (
                   <>
-                    <span className="mr-2">🚀</span>
+                    <Rocket className="size-5 mr-2" />
                     Start Game
                   </>
                 )}
