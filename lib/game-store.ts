@@ -3,6 +3,7 @@ import {
   getRandomWord,
   evaluateGuess,
   calculateRoundScore,
+  calculateTurnScore,
 } from "./game-utils";
 import type { GameStore, Player, TileState, GuessEvaluation } from "./types";
 
@@ -129,6 +130,20 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Check if current player's turn is complete (correct guess or max guesses reached)
     if (evaluation.isCorrect || updatedPlayer.guesses.length >= MAX_GUESSES) {
+      // Calculate turn score and update player score
+      const turnScore = calculateTurnScore(
+        updatedPlayer.guesses,
+        state.secretWord
+      );
+      const finalUpdatedPlayer = {
+        ...updatedPlayer,
+        score: player.score + turnScore,
+      };
+
+      set({
+        [currentPlayer]: finalUpdatedPlayer,
+      });
+
       // If player guessed correctly, show correct guess dialog
       if (evaluation.isCorrect) {
         get().openCorrectGuessDialog(currentPlayer);
@@ -196,41 +211,36 @@ export const useGameStore = create<GameStore>((set, get) => ({
       );
 
     if (player1TurnComplete && player2TurnComplete) {
-      // Both players have completed their turns, evaluate the round
-      const player1BestGuess = getBestGuess(player1.guesses, state.secretWord);
-      const player2BestGuess = getBestGuess(player2.guesses, state.secretWord);
-
-      const player1Evaluation = evaluateGuess(
-        player1BestGuess,
+      // Both players have completed their turns, determine round winner
+      const player1TurnScore = calculateTurnScore(
+        player1.guesses,
         state.secretWord
       );
-      const player2Evaluation = evaluateGuess(
-        player2BestGuess,
+      const player2TurnScore = calculateTurnScore(
+        player2.guesses,
         state.secretWord
       );
 
-      // Calculate round score
-      const roundScore = calculateRoundScore(
-        player1Evaluation,
-        player2Evaluation,
-        state.secretWord
-      );
+      // Determine round winner
+      let roundWinner: Player | "tie" | null = null;
+      if (player1TurnScore > player2TurnScore) {
+        roundWinner = "player1";
+      } else if (player2TurnScore > player1TurnScore) {
+        roundWinner = "player2";
+      } else {
+        roundWinner = "tie";
+      }
 
-      // Update player scores
-      const updatedPlayer1 = {
-        ...player1,
-        score: player1.score + roundScore.player1Score,
-      };
-      const updatedPlayer2 = {
-        ...player2,
-        score: player2.score + roundScore.player2Score,
+      // Create round score record (scores are already updated in player states)
+      const roundScore = {
+        player1Score: player1TurnScore,
+        player2Score: player2TurnScore,
+        winner: roundWinner,
       };
 
       set({
-        player1: updatedPlayer1,
-        player2: updatedPlayer2,
         roundScores: [...state.roundScores, roundScore],
-        currentRoundWinner: roundScore.winner,
+        currentRoundWinner: roundWinner,
       });
 
       // Check if game is complete

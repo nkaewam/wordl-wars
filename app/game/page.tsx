@@ -163,6 +163,10 @@ export default function GamePage() {
         playerName={
           correctGuessPlayer === "player1" ? player1Name : player2Name
         }
+        onContinue={() => {
+          closeCorrectGuessDialog();
+          nextTurn();
+        }}
       />
     </main>
   );

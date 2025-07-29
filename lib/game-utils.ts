@@ -137,26 +137,45 @@ export function evaluateGuess(guess: string, answer: string): GuessEvaluation {
 /**
  * Calculate score for a single guess based on tile states
  * @param tiles Array of tile evaluations
- * @returns number Score for this guess
+ * @returns number Score for this guess (1-5 based on correct letters)
  */
 function calculateGuessScore(tiles: TileEvaluation[]): number {
-  let score = 0;
+  let correctCount = 0;
 
   for (const tile of tiles) {
-    switch (tile.state) {
-      case "correct":
-        score += 10; // Green tile = 10 points
-        break;
-      case "present":
-        score += 5; // Yellow tile = 5 points
-        break;
-      case "absent":
-        score += 0; // Gray tile = 0 points
-        break;
+    if (tile.state === "correct") {
+      correctCount++;
     }
   }
 
-  return score;
+  return correctCount; // 1-5 points based on how many letters are correct
+}
+
+/**
+ * Calculate turn score for a single player's turn
+ * @param guesses Array of guesses made in this turn
+ * @param answer The correct answer for this round
+ * @returns number Score for this turn (1-5 based on best guess)
+ */
+export function calculateTurnScore(guesses: string[], answer: string): number {
+  if (guesses.length === 0) return 0;
+
+  let bestScore = 0;
+
+  // Find the best score from all guesses
+  for (const guess of guesses) {
+    const evaluation = evaluateGuess(guess, answer);
+
+    if (evaluation.isCorrect) {
+      return 5; // Perfect score for correct word
+    }
+
+    if (evaluation.score > bestScore) {
+      bestScore = evaluation.score;
+    }
+  }
+
+  return bestScore; // Return the best score achieved (1-4)
 }
 
 /**

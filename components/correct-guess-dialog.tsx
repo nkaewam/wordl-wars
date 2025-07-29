@@ -12,12 +12,14 @@ interface CorrectGuessDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   playerName: string;
+  onContinue: () => void;
 }
 
 export function CorrectGuessDialog({
   open,
   onOpenChange,
   playerName,
+  onContinue,
 }: CorrectGuessDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -31,7 +33,7 @@ export function CorrectGuessDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={onContinue}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
