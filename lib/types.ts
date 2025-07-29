@@ -60,6 +60,8 @@ export interface GameState {
   // Dialog state
   showAnswerDialog: boolean;
   answerDialogPlayer: Player | null;
+  showCorrectGuessDialog: boolean;
+  correctGuessPlayer: Player | null;
 }
 
 export interface GameActions {
@@ -84,6 +86,8 @@ export interface GameActions {
   // Dialog actions
   openAnswerDialog: (player: Player) => void;
   closeAnswerDialog: () => void;
+  openCorrectGuessDialog: (player: Player) => void;
+  closeCorrectGuessDialog: () => void;
 }
 
 export type GameStore = GameState & GameActions;

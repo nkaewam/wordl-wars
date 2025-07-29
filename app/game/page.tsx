@@ -7,6 +7,8 @@ import { TurnIndicator } from "@/components/turn-indicator";
 import { WordGrid } from "@/components/word-grid";
 import { OnScreenKeyboard } from "@/components/on-screen-keyboard";
 import { AnswerRevealDialog } from "@/components/answer-reveal-dialog";
+import { CorrectGuessDialog } from "@/components/correct-guess-dialog";
+import { DebugAnswerKey } from "@/components/debug-answer-key";
 
 export default function GamePage() {
   const {
@@ -20,11 +22,14 @@ export default function GamePage() {
     player1,
     player2,
     showAnswerDialog,
+    showCorrectGuessDialog,
+    correctGuessPlayer,
     startGame,
     submitGuess,
     updateCurrentGuess,
     nextTurn,
     closeAnswerDialog,
+    closeCorrectGuessDialog,
   } = useGameStore();
 
   // Initialize game if not already active
@@ -100,6 +105,7 @@ export default function GamePage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
+      <DebugAnswerKey secretWord={secretWord} />
       <div className="z-10 max-w-4xl w-full items-center justify-center font-mono text-sm lg:flex flex-col gap-8">
         {/* Game Header */}
         {/* <div className="text-center">
@@ -147,6 +153,16 @@ export default function GamePage() {
         onOpenChange={(open) => {
           if (!open) closeAnswerDialog();
         }}
+      />
+
+      <CorrectGuessDialog
+        open={showCorrectGuessDialog}
+        onOpenChange={(open) => {
+          if (!open) closeCorrectGuessDialog();
+        }}
+        playerName={
+          correctGuessPlayer === "player1" ? player1Name : player2Name
+        }
       />
     </main>
   );

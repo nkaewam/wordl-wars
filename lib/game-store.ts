@@ -60,6 +60,8 @@ const createInitialGameState = () => ({
   // Dialog state
   showAnswerDialog: false,
   answerDialogPlayer: null,
+  showCorrectGuessDialog: false,
+  correctGuessPlayer: null,
 });
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -83,6 +85,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentRoundWinner: null,
       isLoading: false,
       error: null,
+      showCorrectGuessDialog: false,
+      correctGuessPlayer: null,
     });
   },
 
@@ -125,11 +129,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Check if current player's turn is complete (correct guess or max guesses reached)
     if (evaluation.isCorrect || updatedPlayer.guesses.length >= MAX_GUESSES) {
+      // If player guessed correctly, show correct guess dialog
+      if (evaluation.isCorrect) {
+        get().openCorrectGuessDialog(currentPlayer);
+      }
       // If player ran out of guesses without finding the correct word, show answer dialog
-      if (
-        !evaluation.isCorrect &&
-        updatedPlayer.guesses.length >= MAX_GUESSES
-      ) {
+      else if (updatedPlayer.guesses.length >= MAX_GUESSES) {
         get().openAnswerDialog(currentPlayer);
       } else {
         get().nextTurn();
@@ -172,6 +177,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const currentPlayer = state.currentPlayer;
     const player1 = state.player1;
     const player2 = state.player2;
+
+    // Close any open dialogs when advancing turns
+    if (state.showCorrectGuessDialog) {
+      set({ showCorrectGuessDialog: false, correctGuessPlayer: null });
+    }
 
     // Check if both players have completed their full turns (6 guesses each or correct word)
     const player1TurnComplete =
@@ -249,6 +259,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentRound: state.currentRound + 1,
       currentPlayer: "player1",
       secretWord: newSecretWord,
+      showCorrectGuessDialog: false,
+      correctGuessPlayer: null,
       player1: {
         ...state.player1,
         currentGuess: "",
@@ -295,5 +307,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   closeAnswerDialog: () => {
     set({ showAnswerDialog: false, answerDialogPlayer: null });
+  },
+
+  openCorrectGuessDialog: (player: Player) => {
+    set({ showCorrectGuessDialog: true, correctGuessPlayer: player });
+  },
+
+  closeCorrectGuessDialog: () => {
+    set({ showCorrectGuessDialog: false, correctGuessPlayer: null });
   },
 }));
