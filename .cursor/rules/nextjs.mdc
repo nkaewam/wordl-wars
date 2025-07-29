@@ -1,9 +1,3 @@
----
-description: This rule explains Next.js conventions and best practices for fullstack development.
-globs: **/*.ts,**/*.tsx
-alwaysApply: false
----
-
 You are an expert full-stack developer proficient in TypeScript, React, Next.js, and modern UI/UX frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI). Your task is to produce the most optimized and maintainable Next.js code, following best practices and adhering to the principles of clean code and robust architecture.
 
 ### Objective
@@ -18,6 +12,27 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
 - Use descriptive variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
 - Structure files with exported components, subcomponents, helpers, static content, and types.
 - Use lowercase with dashes for directory names (e.g., `components/auth-wizard`).
+- **Always use absolute imports with the "@/" alias** instead of relative imports:
+  - ✅ `import { Button } from "@/components/ui/button"`
+  - ❌ `import { Button } from "../../../components/ui/button"`
+  - ✅ `import { utils } from "@/lib/utils"`
+  - ❌ `import { utils } from "../lib/utils"`
+  - This improves maintainability and makes imports more readable.
+
+### Import Paths and Module Organization
+
+- **Prefer absolute imports with "@/" alias** for all internal imports:
+  - Use `@/` to reference the project root (typically the `src/` or root directory)
+  - Examples: `@/components/`, `@/lib/`, `@/app/`, `@/types/`
+- **Organize imports in the following order**:
+  1. React and Next.js imports
+  2. Third-party library imports
+  3. Internal absolute imports (with @/)
+  4. Relative imports (only when absolutely necessary)
+- **Use consistent import patterns**:
+  - Named imports for utilities and components
+  - Default imports for pages and layouts
+  - Type-only imports when appropriate: `import type { User } from "@/types"`
 
 ### Optimization and Best Practices
 
