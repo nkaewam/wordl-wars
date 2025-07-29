@@ -8,16 +8,16 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 
 - [x] Load and preprocess 5-letter word list - **UPDATED**: Created dual file system with `all-words.txt` (comprehensive validation list 2500+ words) and `words.txt` (top 100 common words by frequency for answers).
 - [x] Implement `getRandomWord()` utility - **COMPLETED**: Returns random words from answer list only.
-- [ ] Build `evaluateGuess(guess, answer)` function returning tile states.
-- [ ] Create score calculation helper (`calculateRoundScore`).
+- [x] Build `evaluateGuess(guess, answer)` function returning tile states. - **COMPLETED**: Implements Wordle-style tile evaluation with correct/present/absent states and scoring.
+- [x] Create score calculation helper (`calculateRoundScore`). - **COMPLETED**: Calculates round scores with bonus points for correct guesses and determines winner.
 - [ ] Implement turn & round manager (context or hook).
 - [ ] Define TypeScript types/interfaces for Game, Player, Turn, TileState.
 - [ ] Add basic error handling (invalid word, too short, etc.).
 
 ## M2 – Base UI Components
 
-- [ ] Install shadcn/ui and add **InputOTP** component (`pnpm dlx shadcn@latest add input-otp`).
-- [ ] Create `WordGrid` wrapper around `InputOTP` to display 5-letter word guesses.
+- [x] Install shadcn/ui and add **InputOTP** component (`pnpm dlx shadcn@latest add input-otp`). - **COMPLETED**: Installed shadcn/ui and InputOTP component successfully.
+- [x] Create `WordGrid` wrapper around `InputOTP` to display 5-letter word guesses. - **COMPLETED**: Created WordGrid component with proper styling and tile state support.
 - [ ] Apply custom styles/theme to match game colors (🟩, 🟨, ⬛).
 - [ ] `OnScreenKeyboard` with clickable keys + key state coloring.
 - [ ] `TurnIndicator` showing current player and round.
