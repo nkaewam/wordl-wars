@@ -9,6 +9,21 @@ import type { GameStore, Player, TileState, GuessEvaluation } from "./types";
 const MAX_GUESSES = 6;
 const MAX_ROUNDS = 5;
 
+// Helper function to get the best guess from a player's guesses
+const getBestGuess = (guesses: string[], secretWord: string): string => {
+  if (guesses.length === 0) return "";
+
+  // Find the first correct guess, or return the last guess if no correct guess
+  for (const guess of guesses) {
+    const evaluation = evaluateGuess(guess, secretWord);
+    if (evaluation.isCorrect) {
+      return guess;
+    }
+  }
+
+  return guesses[guesses.length - 1];
+};
+
 const createInitialPlayerState = (name: string) => ({
   name,
   score: 0,
@@ -77,7 +92,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const currentPlayer = state.currentPlayer;
     const player = state[currentPlayer];
 
-    if (!state.isGameActive || player.guesses.length >= MAX_GUESSES) {
+    // Check if it's the current player's turn and they haven't completed their turn
+    const isPlayerTurnComplete =
+      player.guesses.length >= MAX_GUESSES ||
+      player.guesses.some(
+        (guess) => evaluateGuess(guess, state.secretWord).isCorrect
+      );
+
+    if (!state.isGameActive || isPlayerTurnComplete) {
       return;
     }
 
@@ -97,7 +119,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       [currentPlayer]: updatedPlayer,
     });
 
-    // Check if round is complete
+    // Check if current player's turn is complete (correct guess or max guesses reached)
     if (evaluation.isCorrect || updatedPlayer.guesses.length >= MAX_GUESSES) {
       get().nextTurn();
     }
@@ -108,7 +130,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const currentPlayer = state.currentPlayer;
     const player = state[currentPlayer];
 
-    if (!state.isGameActive || player.guesses.length >= MAX_GUESSES) {
+    // Check if it's the current player's turn and they haven't completed their turn
+    const isPlayerTurnComplete =
+      player.guesses.length >= MAX_GUESSES ||
+      player.guesses.some(
+        (guess) => evaluateGuess(guess, state.secretWord).isCorrect
+      );
+
+    if (!state.isGameActive || isPlayerTurnComplete) {
       return;
     }
 
@@ -132,18 +161,29 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const player1 = state.player1;
     const player2 = state.player2;
 
-    // Check if both players have completed their turns
-    if (player1.guesses.length > 0 && player2.guesses.length > 0) {
-      // Get the last guess from each player and evaluate them
-      const player1LastGuess = player1.guesses[player1.guesses.length - 1];
-      const player2LastGuess = player2.guesses[player2.guesses.length - 1];
+    // Check if both players have completed their full turns (6 guesses each or correct word)
+    const player1TurnComplete =
+      player1.guesses.length >= MAX_GUESSES ||
+      player1.guesses.some(
+        (guess) => evaluateGuess(guess, state.secretWord).isCorrect
+      );
+    const player2TurnComplete =
+      player2.guesses.length >= MAX_GUESSES ||
+      player2.guesses.some(
+        (guess) => evaluateGuess(guess, state.secretWord).isCorrect
+      );
+
+    if (player1TurnComplete && player2TurnComplete) {
+      // Both players have completed their turns, evaluate the round
+      const player1BestGuess = getBestGuess(player1.guesses, state.secretWord);
+      const player2BestGuess = getBestGuess(player2.guesses, state.secretWord);
 
       const player1Evaluation = evaluateGuess(
-        player1LastGuess,
+        player1BestGuess,
         state.secretWord
       );
       const player2Evaluation = evaluateGuess(
-        player2LastGuess,
+        player2BestGuess,
         state.secretWord
       );
 
@@ -182,7 +222,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
         get().nextRound();
       }
     } else {
-      // Switch to next player
+      // Switch to next player for their turn
       const nextPlayer: Player =
         currentPlayer === "player1" ? "player2" : "player1";
       set({ currentPlayer: nextPlayer });

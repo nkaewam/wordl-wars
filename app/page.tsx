@@ -24,7 +24,7 @@ export default function Home() {
 
         {/* Game Info */}
         <div className="text-center text-sm text-gray-500 mt-8">
-          <p>5 rounds • 6 guesses per round • Best score wins!</p>
+          5 rounds • 6 guesses per round • Best score wins!
         </div>
       </div>
     </main>

@@ -10,23 +10,24 @@ import { cn } from "@/lib/utils";
 import type { TileState } from "@/lib/types";
 
 interface WordGridProps {
-  value: string;
+  currentGuess: string;
+  previousGuesses: string[];
+  tileStates: TileState[][];
+  currentRow: number;
   onChange: (value: string) => void;
   disabled?: boolean;
-  tileStates?: TileState[];
   className?: string;
 }
 
 export function WordGrid({
-  value,
+  currentGuess,
+  previousGuesses,
+  tileStates,
+  currentRow,
   onChange,
   disabled = false,
-  tileStates,
   className,
 }: WordGridProps) {
-  // Ensure value is exactly 5 characters
-  const normalizedValue = value.padEnd(5, "").slice(0, 5).toUpperCase();
-
   const handleValueChange = (newValue: string) => {
     // Only allow letters and limit to 5 characters
     const lettersOnly = newValue
@@ -36,12 +37,15 @@ export function WordGrid({
     onChange(lettersOnly);
   };
 
-  const getTileStateColor = (index: number): string => {
-    if (!tileStates || index >= tileStates.length) {
+  const getTileStateColor = (rowIndex: number, colIndex: number): string => {
+    if (
+      rowIndex >= tileStates.length ||
+      colIndex >= tileStates[rowIndex]?.length
+    ) {
       return "bg-white border-gray-300 text-gray-900";
     }
 
-    const state = tileStates[index];
+    const state = tileStates[rowIndex][colIndex];
     switch (state) {
       case "correct":
         return "bg-green-500 border-green-500 text-white";
@@ -54,30 +58,48 @@ export function WordGrid({
     }
   };
 
+  const getRowValue = (rowIndex: number): string => {
+    if (rowIndex === currentRow) {
+      return currentGuess.padEnd(5, "").slice(0, 5).toUpperCase();
+    }
+    if (rowIndex < previousGuesses.length) {
+      return previousGuesses[rowIndex].padEnd(5, "").slice(0, 5).toUpperCase();
+    }
+    return "     "; // 5 spaces for empty rows
+  };
+
+  const isRowEditable = (rowIndex: number): boolean => {
+    return rowIndex === currentRow && !disabled;
+  };
+
   return (
-    <div className={cn("flex justify-center", className)}>
-      <InputOTP
-        value={normalizedValue}
-        onChange={handleValueChange}
-        maxLength={5}
-        disabled={disabled}
-        containerClassName="gap-1"
-        className="text-center"
-      >
-        <InputOTPGroup className="gap-1">
-          {Array.from({ length: 5 }, (_, index) => (
-            <InputOTPSlot
-              key={index}
-              index={index}
-              className={cn(
-                "h-12 w-12 text-lg font-bold border-2 transition-all duration-200",
-                getTileStateColor(index),
-                disabled && "opacity-50"
-              )}
-            />
-          ))}
-        </InputOTPGroup>
-      </InputOTP>
+    <div className={cn("flex flex-col gap-1", className)}>
+      {Array.from({ length: 6 }, (_, rowIndex) => (
+        <div key={rowIndex} className="flex justify-center">
+          <InputOTP
+            value={getRowValue(rowIndex)}
+            onChange={isRowEditable(rowIndex) ? handleValueChange : () => {}}
+            maxLength={5}
+            disabled={!isRowEditable(rowIndex)}
+            containerClassName="gap-1"
+            className="text-center"
+          >
+            <InputOTPGroup className="gap-1">
+              {Array.from({ length: 5 }, (_, colIndex) => (
+                <InputOTPSlot
+                  key={colIndex}
+                  index={colIndex}
+                  className={cn(
+                    "h-12 w-12 text-lg font-bold border-2 transition-all duration-200",
+                    getTileStateColor(rowIndex, colIndex),
+                    !isRowEditable(rowIndex) && "opacity-50"
+                  )}
+                />
+              ))}
+            </InputOTPGroup>
+          </InputOTP>
+        </div>
+      ))}
     </div>
   );
 }

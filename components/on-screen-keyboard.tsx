@@ -14,9 +14,9 @@ interface OnScreenKeyboardProps {
 }
 
 const KEYBOARD_LAYOUT = [
-  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "BACKSPACE"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-  ["ENTER", "Z", "X", "C", "V", "B", "N", "M", "BACKSPACE"],
+  ["Z", "X", "C", "V", "B", "N", "M", "ENTER"],
 ];
 
 export function OnScreenKeyboard({
@@ -82,7 +82,11 @@ export function OnScreenKeyboard({
                 getKeyWidth(key),
                 getKeyStateColor(key),
                 disabled && "opacity-50 cursor-not-allowed",
-                !disabled && "cursor-pointer active:scale-95"
+                !disabled && "cursor-pointer active:scale-95",
+                key === "ENTER" &&
+                  "bg-green-500 hover:bg-green-600 text-white border-green-500",
+                key === "BACKSPACE" &&
+                  "bg-red-400 hover:bg-red-500 text-white border-red-400"
               )}
             >
               {key === "BACKSPACE" ? "⌫" : key === "ENTER" ? "↵" : key}
