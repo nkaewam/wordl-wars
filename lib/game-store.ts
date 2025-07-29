@@ -14,7 +14,7 @@ import type {
 } from "./types";
 
 const MAX_GUESSES = 6;
-const MAX_ROUNDS = 5;
+const MAX_ROUNDS = 1;
 
 // Helper function to get the best guess from a player's guesses
 const getBestGuess = (guesses: string[], secretWord: string): string => {

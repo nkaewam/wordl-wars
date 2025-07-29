@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useGameStore } from "@/lib/game-store";
 import { evaluateGuess } from "@/lib/game-utils";
 import { TurnIndicator } from "@/components/turn-indicator";
@@ -28,8 +29,6 @@ export default function GamePage() {
     submitGuess,
     updateCurrentGuess,
     nextTurn,
-    closeAnswerDialog,
-    closeCorrectGuessDialog,
   } = useGameStore();
 
   // Initialize game if not already active

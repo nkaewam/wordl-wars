@@ -5,7 +5,7 @@ import { useGameStore } from "@/lib/game-store";
 import { redirect, useRouter } from "next/navigation";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { isGameActive, isLoading, error } = useGameStore();
+  const { isGameActive, isLoading, error, isGameComplete } = useGameStore();
 
   const router = useRouter();
 
@@ -51,6 +51,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
     );
+  }
+
+  if (isGameComplete) {
+    return redirect("/result");
   }
 
   // Redirect to home if game is not active

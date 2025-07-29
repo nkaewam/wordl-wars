@@ -41,7 +41,7 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 ## M5 – Result Screen
 
 - [x] Compute winner after five rounds for both players.
-- [ ] `/result` route showing final scoreboard & winner banner.
+- [x] `/result` route showing final scoreboard & winner banner. - **COMPLETED**: Created comprehensive result page with winner banner, final scoreboard, round-by-round breakdown, game statistics, and play again functionality.
 - [ ] “Play Again” button to reset GameContext and return to lobby.
 - [ ] Optional: shareable results summary (copy to clipboard).
 
