@@ -23,17 +23,17 @@ export function AnswerRevealDialog({
     answerDialogPlayer,
     player1Name,
     player2Name,
-    closeAnswerDialog,
+
+    nextTurn,
   } = useGameStore();
 
   const playerName =
     answerDialogPlayer === "player1" ? player1Name : player2Name;
 
   const handleContinue = () => {
-    closeAnswerDialog();
     // Trigger next turn after dialog closes
     setTimeout(() => {
-      useGameStore.getState().nextTurn();
+      nextTurn();
     }, 100);
   };
 

@@ -148,25 +148,15 @@ export default function GamePage() {
         />
       </div>
 
-      <AnswerRevealDialog
-        open={showAnswerDialog}
-        onOpenChange={(open) => {
-          if (!open) closeAnswerDialog();
-        }}
-      />
+      <AnswerRevealDialog open={showAnswerDialog} onOpenChange={() => {}} />
 
       <CorrectGuessDialog
         open={showCorrectGuessDialog}
-        onOpenChange={(open) => {
-          if (!open) closeCorrectGuessDialog();
-        }}
+        onOpenChange={() => {}}
         playerName={
           correctGuessPlayer === "player1" ? player1Name : player2Name
         }
-        onContinue={() => {
-          closeCorrectGuessDialog();
-          nextTurn();
-        }}
+        onContinue={nextTurn}
       />
     </main>
   );

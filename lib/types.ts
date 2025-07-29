@@ -73,7 +73,6 @@ export interface GameActions {
   submitGuess: (guess: string) => void;
   updateCurrentGuess: (guess: string) => void;
   nextTurn: () => void;
-  nextRound: () => void;
 
   // Player management
   setCurrentPlayer: (player: Player) => void;

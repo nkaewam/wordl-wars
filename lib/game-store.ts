@@ -151,8 +151,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       // If player ran out of guesses without finding the correct word, show answer dialog
       else if (updatedPlayer.guesses.length >= MAX_GUESSES) {
         get().openAnswerDialog(currentPlayer);
-      } else {
-        get().nextTurn();
       }
     }
   },
@@ -193,11 +191,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const player1 = state.player1;
     const player2 = state.player2;
 
-    // Close any open dialogs when advancing turns
-    if (state.showCorrectGuessDialog) {
-      set({ showCorrectGuessDialog: false, correctGuessPlayer: null });
-    }
-
     // Check if both players have completed their full turns (6 guesses each or correct word)
     const player1TurnComplete =
       player1.guesses.length >= MAX_GUESSES ||
@@ -210,7 +203,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
         (guess) => evaluateGuess(guess, state.secretWord).isCorrect
       );
 
-    if (player1TurnComplete && player2TurnComplete) {
+    console.log(player1, player2);
+
+    // Player 2 has completed their turn, meaning player 1 has also completed their turn
+    if (player2TurnComplete) {
       // Both players have completed their turns, determine round winner
       const player1TurnScore = calculateTurnScore(
         player1.guesses,
@@ -238,6 +234,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
         winner: roundWinner,
       };
 
+      console.log(roundScore);
+
       set({
         roundScores: [...state.roundScores, roundScore],
         currentRoundWinner: roundWinner,
@@ -251,40 +249,50 @@ export const useGameStore = create<GameStore>((set, get) => ({
         });
       } else {
         // Start next round
-        get().nextRound();
+        const newSecretWord = getRandomWord();
+
+        set({
+          currentRound: state.currentRound + 1,
+          currentPlayer: "player1",
+          secretWord: newSecretWord,
+          showCorrectGuessDialog: false,
+          showAnswerDialog: false,
+          correctGuessPlayer: null,
+          player1: {
+            ...state.player1,
+            currentGuess: "",
+            guesses: [],
+            tileStates: [],
+          },
+          player2: {
+            ...state.player2,
+            currentGuess: "",
+            guesses: [],
+            tileStates: [],
+          },
+          currentRoundWinner: null,
+        });
       }
     } else {
-      // Switch to next player for their turn
+      // Switch to next player for their turn and randomize the word
       const nextPlayer: Player =
         currentPlayer === "player1" ? "player2" : "player1";
-      set({ currentPlayer: nextPlayer });
+      const newSecretWord = getRandomWord();
+
+      set({
+        currentPlayer: nextPlayer,
+        secretWord: newSecretWord,
+        showCorrectGuessDialog: false,
+        showAnswerDialog: false,
+        // Reset the next player's state for the new word
+        [nextPlayer]: {
+          ...state[nextPlayer],
+          currentGuess: "",
+          guesses: [],
+          tileStates: [],
+        },
+      });
     }
-  },
-
-  nextRound: () => {
-    const state = get();
-    const newSecretWord = getRandomWord();
-
-    set({
-      currentRound: state.currentRound + 1,
-      currentPlayer: "player1",
-      secretWord: newSecretWord,
-      showCorrectGuessDialog: false,
-      correctGuessPlayer: null,
-      player1: {
-        ...state.player1,
-        currentGuess: "",
-        guesses: [],
-        tileStates: [],
-      },
-      player2: {
-        ...state.player2,
-        currentGuess: "",
-        guesses: [],
-        tileStates: [],
-      },
-      currentRoundWinner: null,
-    });
   },
 
   // Player management actions
