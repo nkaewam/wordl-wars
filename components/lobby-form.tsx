@@ -83,16 +83,16 @@ export function LobbyForm({ className }: LobbyFormProps) {
   const isValid = form.formState.isValid;
 
   return (
-    <div className={cn("w-full max-w-md mx-auto", className)}>
+    <div className={cn("w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto", className)}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 sm:space-y-6">
           {/* Player 1 Input */}
           <FormField
             control={form.control}
             name="player1Name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-card-foreground">
+                <FormLabel className="text-sm sm:text-base font-medium text-card-foreground">
                   Player 1 Name
                 </FormLabel>
                 <FormControl>
@@ -102,7 +102,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
                     maxLength={20}
                     disabled={isSubmitting}
                     className={cn(
-                      "px-4 py-3 h-10 text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-accent focus:border-transparent",
+                      "px-3 sm:px-4 py-2 sm:py-3 h-9 sm:h-10 text-base sm:text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-accent focus:border-transparent",
                       "border-border bg-input hover:border-primary focus:border-accent text-input-foreground"
                     )}
                   />
@@ -115,7 +115,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
           {/* VS Divider */}
           <div className="flex items-center justify-center">
             <div className="flex-1 h-px bg-border"></div>
-            <span className="px-4 text-lg font-bold text-muted-foreground">
+            <span className="px-3 sm:px-4 text-base sm:text-lg font-bold text-muted-foreground">
               VS
             </span>
             <div className="flex-1 h-px bg-border"></div>
@@ -127,7 +127,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
             name="player2Name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-card-foreground">
+                <FormLabel className="text-sm sm:text-base font-medium text-card-foreground">
                   Player 2 Name
                 </FormLabel>
                 <FormControl>
@@ -137,7 +137,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
                     maxLength={20}
                     disabled={isSubmitting}
                     className={cn(
-                      "px-4 py-3 h-10 text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-primary focus:border-transparent",
+                      "px-3 sm:px-4 py-2 sm:py-3 h-9 sm:h-10 text-base sm:text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-primary focus:border-transparent",
                       "border-border bg-input hover:border-primary focus:border-primary text-input-foreground"
                     )}
                   />
@@ -153,7 +153,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
               type="submit"
               disabled={isSubmitting || !isValid}
               className={cn(
-                "w-full h-16 py-4 px-6 text-xl font-bold text-primary-foreground border-0 border-b-[#855A3A] border-b-4 rounded-xl transition-all duration-300 transform cursor-pointer",
+                "w-full h-12 sm:h-14 md:h-16 py-3 sm:py-4 px-4 sm:px-6 text-base sm:text-lg md:text-xl font-bold text-primary-foreground border-0 border-b-[#855A3A] border-b-4 rounded-xl transition-all duration-300 transform cursor-pointer",
                 "focus:outline-none focus:ring-4 focus:ring-primary/50",
                 "shadow-lg hover:shadow-xl active:shadow-md",
                 "relative overflow-hidden",
@@ -177,13 +177,14 @@ export function LobbyForm({ className }: LobbyFormProps) {
               <span className="relative z-10 flex items-center justify-center">
                 {isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                    <span className="animate-pulse">Starting Game...</span>
+                    <div className="animate-spin rounded-full h-4 sm:h-5 w-4 sm:w-5 border-b-2 border-white mr-2 sm:mr-3"></div>
+                    <span className="animate-pulse text-sm sm:text-base">Starting Game...</span>
                   </>
                 ) : (
                   <>
-                    <Rocket className="size-5 mr-2" />
-                    Start Game
+                    <Rocket className="size-4 sm:size-5 mr-2" />
+                    <span className="hidden sm:inline">Start Game</span>
+                    <span className="sm:hidden">Start</span>
                   </>
                 )}
               </span>

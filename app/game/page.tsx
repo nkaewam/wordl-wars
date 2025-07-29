@@ -103,52 +103,53 @@ export default function GamePage() {
   const keyStates = calculateKeyStates();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background">
+    <main className="h-screen flex flex-col items-center justify-center bg-background py-36 lg:py-20 overflow-hidden">
       <DebugAnswerKey secretWord={secretWord} />
-      <div className="z-10 max-w-4xl w-full items-center justify-center font-mono text-sm lg:flex flex-col gap-8">
-        {/* Game Header */}
-        {/* <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Wordl Wars
-          </h1>
-        </div> */}
-
+      <div className="z-10 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-4xl flex flex-col items-center justify-center font-mono text-sm h-full">
         {/* Turn Indicator */}
-
-        <TurnIndicator
-          currentPlayer={currentPlayer}
-          player1Name={player1Name}
-          player2Name={player2Name}
-          player1Score={player1.score}
-          player2Score={player2.score}
-          currentRound={currentRound}
-          maxRounds={maxRounds}
-        />
+        <div className="flex-shrink-0 mb-1 sm:mb-2 md:mb-3">
+          <TurnIndicator
+            currentPlayer={currentPlayer}
+            player1Name={player1Name}
+            player2Name={player2Name}
+            player1Score={player1.score}
+            player2Score={player2.score}
+            currentRound={currentRound}
+            maxRounds={maxRounds}
+            className="w-full"
+          />
+        </div>
 
         {/* Turn Timer */}
+        <div className="flex-shrink-0 mb-1 sm:mb-2 md:mb-3">
+          <TurnTimer />
+        </div>
 
-        <TurnTimer className="mb-4" />
+        {/* Word Grid - Takes remaining space */}
+        <div className="flex-1 flex items-center justify-center min-h-0">
+          <WordGrid
+            currentGuess={currentPlayerState.currentGuess}
+            previousGuesses={currentPlayerState.guesses}
+            tileStates={currentPlayerState.tileStates}
+            currentRow={currentPlayerState.guesses.length}
+            onChange={updateCurrentGuess}
+            disabled={!isCurrentPlayerTurn}
+            className="w-full"
+          />
+        </div>
 
-        <WordGrid
-          currentGuess={currentPlayerState.currentGuess}
-          previousGuesses={currentPlayerState.guesses}
-          tileStates={currentPlayerState.tileStates}
-          currentRow={currentPlayerState.guesses.length}
-          onChange={updateCurrentGuess}
-          disabled={!isCurrentPlayerTurn}
-          className="mb-4"
-        />
-
-        {/* On-Screen Keyboard */}
-
-        <OnScreenKeyboard
-          onKeyPress={handleKeyPress}
-          onBackspace={handleBackspace}
-          onEnter={handleEnter}
-          keyStates={keyStates}
-          disabled={!isCurrentPlayerTurn}
-          isEnterDisabled={currentPlayerState.currentGuess.length !== 5}
-        />
+        {/* On-Screen Keyboard - Fixed at bottom */}
+        <div className="flex-shrink-0 mt-1 sm:mt-2 md:mt-3">
+          <OnScreenKeyboard
+            onKeyPress={handleKeyPress}
+            onBackspace={handleBackspace}
+            onEnter={handleEnter}
+            keyStates={keyStates}
+            disabled={!isCurrentPlayerTurn}
+            isEnterDisabled={currentPlayerState.currentGuess.length !== 5}
+            className="w-full"
+          />
+        </div>
       </div>
 
       <AnswerRevealDialog open={showAnswerDialog} onOpenChange={() => {}} />

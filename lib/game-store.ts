@@ -271,17 +271,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const player1 = state.player1;
     const player2 = state.player2;
 
-    // Check if both players have completed their full turns (6 guesses each or correct word)
+    // Check if both players have completed their full turns (6 guesses each, correct word, or time ran out)
     const player1TurnComplete =
       player1.guesses.length >= MAX_GUESSES ||
       player1.guesses.some(
         (guess) => evaluateGuess(guess, state.player1AnswerKey).isCorrect
-      );
+      ) ||
+      (state.currentPlayer === "player1" && state.timeRemaining === 0);
     const player2TurnComplete =
       player2.guesses.length >= MAX_GUESSES ||
       player2.guesses.some(
         (guess) => evaluateGuess(guess, state.player2AnswerKey).isCorrect
-      );
+      ) ||
+      (state.currentPlayer === "player2" && state.timeRemaining === 0);
 
     console.log(player1, player2);
 

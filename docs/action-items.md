@@ -47,8 +47,7 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 
 ## M6 – Polish & Accessibility
 
-- [ ] Tile flip/slide and keyboard press animations.
-- [ ] Responsive layouts (mobile portrait → desktop wide).
+- [x] Responsive layouts (mobile portrait → desktop wide).
 
 ## M7 – Offline & PWA Enhancements
 

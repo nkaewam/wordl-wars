@@ -56,9 +56,9 @@ export function TurnTimer({ className }: TurnTimerProps) {
   }
 
   return (
-    <div className={cn("flex items-center justify-center gap-2", className)}>
-      <div className="text-sm font-medium text-muted-foreground">Time:</div>
-      <div className={cn("text-lg font-bold font-mono", getTimerColor())}>
+    <div className={cn("flex items-center justify-center gap-1", className)}>
+      <div className="text-xs sm:text-sm font-medium text-muted-foreground">Time:</div>
+      <div className={cn("text-sm sm:text-base md:text-lg font-bold font-mono", getTimerColor())}>
         {formatTime(timeRemaining)}
       </div>
     </div>

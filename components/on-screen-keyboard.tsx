@@ -104,24 +104,46 @@ export function OnScreenKeyboard({
   };
 
   const getKeyWidth = (key: string): string => {
-    if (key === "ENTER" || key === "BACKSPACE") {
-      return "w-16";
+    if (key === "ENTER") {
+      return "w-10 sm:w-12 md:w-14 lg:w-16";
     }
-    return "w-10";
+    if (key === "BACKSPACE") {
+      return "w-10 sm:w-12 md:w-14";
+    }
+    return "w-7 sm:w-8 md:w-9 lg:w-10";
+  };
+
+  const getKeyHeight = (key: string): string => {
+    return "h-8 sm:h-9 md:h-10 lg:h-12";
+  };
+
+  const getKeyTextSize = (key: string): string => {
+    if (key === "ENTER") {
+      return "text-xs sm:text-sm md:text-base";
+    }
+    return "text-xs sm:text-sm md:text-base lg:text-lg";
   };
 
   return (
-    <div ref={containerRef} className={cn("flex flex-col gap-2", className)}>
+    <div
+      ref={containerRef}
+      className={cn(
+        "flex flex-col gap-0.5 sm:gap-1 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg",
+        className
+      )}
+    >
       {KEYBOARD_LAYOUT.map((row, rowIndex) => (
-        <div key={rowIndex} className=" flex justify-center gap-1">
+        <div key={rowIndex} className="flex justify-center gap-0.5 sm:gap-1">
           {row.map((key) => (
             <button
               key={key}
               onClick={() => handleKeyClick(key)}
               disabled={disabled || (key === "ENTER" && isEnterDisabled)}
               className={cn(
-                "size-12 px-2 rounded-md font-semibold border-2 transition-all duration-200 select-none flex justify-center items-center",
+                "px-1 sm:px-2 rounded-md font-semibold border-2 transition-all duration-200 select-none flex justify-center items-center",
                 getKeyWidth(key),
+                getKeyHeight(key),
+                getKeyTextSize(key),
                 getKeyStateColor(key),
                 (disabled || (key === "ENTER" && isEnterDisabled)) &&
                   "opacity-50 cursor-not-allowed",
@@ -129,15 +151,15 @@ export function OnScreenKeyboard({
                   !(key === "ENTER" && isEnterDisabled) &&
                   "cursor-pointer active:scale-95",
                 key === "ENTER" &&
-                  "bg-green-500 w-20 hover:bg-green-600 text-white border-green-500",
+                  "bg-green-500 hover:bg-green-600 text-white border-green-500",
                 key === "BACKSPACE" &&
                   "bg-red-400 hover:bg-red-500 text-white border-red-400"
               )}
             >
               {key === "BACKSPACE" ? (
-                <Delete className="size-5" />
+                <Delete className="size-3 sm:size-4 md:size-5" />
               ) : key === "ENTER" ? (
-                "SUBMIT"
+                <span className="hidden sm:inline">SUBMIT</span>
               ) : (
                 key
               )}

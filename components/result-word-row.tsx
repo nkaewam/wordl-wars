@@ -30,12 +30,12 @@ export function ResultWordRow({
 
   return (
     <div className={cn("flex justify-center", className)}>
-      <div className="flex gap-1">
+      <div className="flex gap-0.5 sm:gap-1">
         {Array.from({ length: 5 }, (_, colIndex) => (
           <div
             key={colIndex}
             className={cn(
-              "size-8 text-sm rounded-sm font-bold border-2 flex items-center justify-center transition-all duration-200",
+              "size-6 sm:size-7 md:size-8 text-xs sm:text-sm rounded-sm font-bold border-2 flex items-center justify-center transition-all duration-200",
               getTileStateColor(tileStates[colIndex])
             )}
           >
