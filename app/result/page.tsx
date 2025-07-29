@@ -14,7 +14,6 @@ export default function ResultPage() {
     player2Name,
     player1,
     player2,
-    roundScores,
     turnHistory,
     isGameComplete,
     resetGame,
