@@ -14853,7 +14853,8 @@ export const ALL_WORDS: string[] = [
   "zygal",
   "zygon",
   "zymes",
-  "zymic",];
+  "zymic",
+];
 
 export const ANSWER_WORDS: string[] = [
   "about",
@@ -14935,7 +14936,6 @@ export const ANSWER_WORDS: string[] = [
   "child",
   "field",
   "music",
-  "reason",
   "clear",
   "party",
   "color",
@@ -14955,4 +14955,5 @@ export const ANSWER_WORDS: string[] = [
   "catch",
   "trust",
   "peace",
-  "dream",];
+  "dream",
+];

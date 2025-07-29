@@ -48,11 +48,11 @@ export function WordGrid({
     const state = tileStates[rowIndex][colIndex];
     switch (state) {
       case "correct":
-        return "bg-accent border-accent text-accent-foreground";
+        return "bg-accent border-accent/70 text-accent-foreground";
       case "present":
-        return "bg-primary border-primary text-primary-foreground";
+        return "bg-primary border-primary/70 text-primary-foreground";
       case "absent":
-        return "bg-muted border-muted text-muted-foreground";
+        return "bg-muted border-muted/70 text-muted-foreground";
       default:
         return "bg-card border-border text-foreground";
     }
@@ -70,6 +70,10 @@ export function WordGrid({
 
   const isRowEditable = (rowIndex: number): boolean => {
     return rowIndex === currentRow && !disabled;
+  };
+
+  const isRowEmpty = (rowIndex: number): boolean => {
+    return rowIndex >= previousGuesses.length && rowIndex !== currentRow;
   };
 
   return (
@@ -90,9 +94,9 @@ export function WordGrid({
                   key={colIndex}
                   index={colIndex}
                   className={cn(
-                    "size-14 text-lg font-bold border-2 transition-all duration-200",
+                    "size-16 text-lg rounded-sm font-bold border-4 transition-all duration-200",
                     getTileStateColor(rowIndex, colIndex),
-                    !isRowEditable(rowIndex) && "opacity-50"
+                    isRowEmpty(rowIndex) && "opacity-50"
                   )}
                 />
               ))}

@@ -13,7 +13,7 @@ export default function Home() {
         />
 
         {/* Lobby Form */}
-        <div className="bg-card p-8 rounded-xl shadow-xl border border-border w-full max-w-md">
+        <div className="bg-card p-8 rounded-xl shadow-xl border-4 border-border w-full max-w-md">
           <h2 className="text-2xl font-semibold mb-6 text-center text-card-foreground">
             Enter Player Names
           </h2>
