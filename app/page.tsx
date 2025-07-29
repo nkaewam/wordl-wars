@@ -27,7 +27,7 @@ export default function Home() {
 
         {/* Footer */}
         <div className="text-center text-sm text-muted-foreground mt-12">
-          <div>made with &lt;3 from @itstontann for @ploycheeze</div>
+          <div>made with &lt;3 from @itstontann for @pploycheeze</div>
           <div className="mt-1">🐕 🐱</div>
         </div>
       </div>
