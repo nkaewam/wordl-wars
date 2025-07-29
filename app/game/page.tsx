@@ -6,6 +6,7 @@ import { evaluateGuess } from "@/lib/game-utils";
 import { TurnIndicator } from "@/components/turn-indicator";
 import { WordGrid } from "@/components/word-grid";
 import { OnScreenKeyboard } from "@/components/on-screen-keyboard";
+import { AnswerRevealDialog } from "@/components/answer-reveal-dialog";
 
 export default function GamePage() {
   const {
@@ -18,10 +19,12 @@ export default function GamePage() {
     secretWord,
     player1,
     player2,
+    showAnswerDialog,
     startGame,
     submitGuess,
     updateCurrentGuess,
     nextTurn,
+    closeAnswerDialog,
   } = useGameStore();
 
   // Initialize game if not already active
@@ -63,16 +66,16 @@ export default function GamePage() {
     submitGuess(currentPlayerState.currentGuess);
   };
 
-  // Calculate key states for keyboard
+  // Calculate key states for keyboard - only for current player's current turn
   const calculateKeyStates = () => {
     const keyStates: Record<string, "correct" | "present" | "absent"> = {};
 
-    // Combine all guesses from both players to determine key states
-    const allGuesses = [...player1.guesses, ...player2.guesses];
-    const allTileStates = [...player1.tileStates, ...player2.tileStates];
+    // Only use the current player's guesses for this turn
+    const currentPlayerGuesses = currentPlayerState.guesses;
+    const currentPlayerTileStates = currentPlayerState.tileStates;
 
-    allGuesses.forEach((guess, guessIndex) => {
-      const tileStates = allTileStates[guessIndex];
+    currentPlayerGuesses.forEach((guess, guessIndex) => {
+      const tileStates = currentPlayerTileStates[guessIndex];
       if (tileStates) {
         guess.split("").forEach((letter, letterIndex) => {
           const state = tileStates[letterIndex];
@@ -136,6 +139,13 @@ export default function GamePage() {
           isEnterDisabled={currentPlayerState.currentGuess.length !== 5}
         />
       </div>
+
+      <AnswerRevealDialog
+        open={showAnswerDialog}
+        onOpenChange={(open) => {
+          if (!open) closeAnswerDialog();
+        }}
+      />
     </main>
   );
 }

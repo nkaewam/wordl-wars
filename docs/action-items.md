@@ -36,7 +36,7 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 - [ ] Alternate active player after each turn completion.
 - [ ] Hook up `WordGrid`, `OnScreenKeyboard`, scoring logic.
 - [ ] `ScoreBoard` component displaying cumulative scores.
-- [ ] Handle end-of-round transitions and reset grid.
+- [x] Handle end-of-round transitions and reset grid.
 
 ## M5 – Result Screen
 

@@ -56,6 +56,10 @@ const createInitialGameState = () => ({
   // UI state
   isLoading: false,
   error: null,
+
+  // Dialog state
+  showAnswerDialog: false,
+  answerDialogPlayer: null,
 });
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -121,7 +125,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Check if current player's turn is complete (correct guess or max guesses reached)
     if (evaluation.isCorrect || updatedPlayer.guesses.length >= MAX_GUESSES) {
-      get().nextTurn();
+      // If player ran out of guesses without finding the correct word, show answer dialog
+      if (
+        !evaluation.isCorrect &&
+        updatedPlayer.guesses.length >= MAX_GUESSES
+      ) {
+        get().openAnswerDialog(currentPlayer);
+      } else {
+        get().nextTurn();
+      }
     }
   },
 
@@ -274,5 +286,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   setError: (error: string | null) => {
     set({ error });
+  },
+
+  // Dialog actions
+  openAnswerDialog: (player: Player) => {
+    set({ showAnswerDialog: true, answerDialogPlayer: player });
+  },
+
+  closeAnswerDialog: () => {
+    set({ showAnswerDialog: false, answerDialogPlayer: null });
   },
 }));

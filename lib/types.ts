@@ -56,6 +56,10 @@ export interface GameState {
   // UI state
   isLoading: boolean;
   error: string | null;
+
+  // Dialog state
+  showAnswerDialog: boolean;
+  answerDialogPlayer: Player | null;
 }
 
 export interface GameActions {
@@ -76,6 +80,10 @@ export interface GameActions {
   // UI actions
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+
+  // Dialog actions
+  openAnswerDialog: (player: Player) => void;
+  closeAnswerDialog: () => void;
 }
 
 export type GameStore = GameState & GameActions;
