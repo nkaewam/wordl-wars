@@ -117,6 +117,11 @@ const createInitialGameState = () => ({
   turnHistory: [],
   currentTurnNumber: 1,
 
+  // Timer state
+  turnTimeLimit: 60, // 60 seconds per turn
+  timeRemaining: 60,
+  isTimerActive: false,
+
   // UI state
   isLoading: false,
   error: null,
@@ -152,6 +157,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentRoundWinner: null,
       turnHistory: [],
       currentTurnNumber: 1,
+      timeRemaining: 60, // Reset timer to 60 seconds
+      isTimerActive: true, // Start timer for first player
       isLoading: false,
       error: null,
       showCorrectGuessDialog: false,
@@ -160,7 +167,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   resetGame: () => {
-    set(createInitialGameState());
+    set({
+      ...createInitialGameState(),
+      timeRemaining: 60,
+      isTimerActive: false,
+    });
   },
 
   // Gameplay actions
@@ -210,6 +221,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
       set({
         [currentPlayer]: finalUpdatedPlayer,
+        isTimerActive: false, // Stop timer when turn is complete
       });
 
       // If player guessed correctly, show correct guess dialog
@@ -342,6 +354,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
           secretWord: newPlayer1AnswerKey, // Start with player1's new word
           player1AnswerKey: newPlayer1AnswerKey,
           player2AnswerKey: newPlayer2AnswerKey,
+          timeRemaining: state.turnTimeLimit, // Reset timer for new round
+          isTimerActive: true, // Start timer for new round
           showCorrectGuessDialog: false,
           showAnswerDialog: false,
           correctGuessPlayer: null,
@@ -374,6 +388,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({
         currentPlayer: nextPlayer,
         secretWord: nextPlayerAnswerKey,
+        timeRemaining: state.turnTimeLimit, // Reset timer for new player
+        isTimerActive: true, // Start timer for new player
         showCorrectGuessDialog: false,
         showAnswerDialog: false,
         // Reset the next player's state for the new word
@@ -425,5 +441,87 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   closeCorrectGuessDialog: () => {
     set({ showCorrectGuessDialog: false, correctGuessPlayer: null });
+  },
+
+  // Timer actions
+  startTimer: () => {
+    set({ isTimerActive: true });
+  },
+
+  stopTimer: () => {
+    set({ isTimerActive: false });
+  },
+
+  resetTimer: () => {
+    set({ timeRemaining: get().turnTimeLimit, isTimerActive: false });
+  },
+
+  updateTimeRemaining: (time: number) => {
+    set({ timeRemaining: time });
+  },
+
+  // Handle time expiration
+  handleTimeExpired: () => {
+    console.log("Time expired! Handling time expiration...");
+    const state = get();
+    const currentPlayer = state.currentPlayer;
+    const player = state[currentPlayer];
+
+    console.log(
+      "Current player:",
+      currentPlayer,
+      "Guesses:",
+      player.guesses.length
+    );
+
+    // Stop the timer first
+    set({ isTimerActive: false, timeRemaining: 0 });
+
+    // If player has no guesses, force submit a "time's up" guess
+    if (player.guesses.length === 0) {
+      const randomWord = "TIMES";
+      const evaluation = evaluateGuess(randomWord, state.secretWord);
+      const tileStates = evaluation.tiles.map((tile) => tile.state);
+
+      // Update player state directly
+      const updatedPlayer = {
+        ...player,
+        guesses: [randomWord],
+        tileStates: [tileStates],
+        currentGuess: "",
+      };
+
+      // Calculate turn score and update player score
+      const turnScore = calculateTurnScore(
+        updatedPlayer.guesses,
+        state.secretWord
+      );
+      const finalUpdatedPlayer = {
+        ...updatedPlayer,
+        score: player.score + turnScore,
+      };
+
+      set({
+        [currentPlayer]: finalUpdatedPlayer,
+      });
+
+      // Show answer dialog since they didn't complete the word
+      get().openAnswerDialog(currentPlayer);
+    } else {
+      // If player has some guesses but time ran out, force end their turn
+      // Calculate turn score and update player score
+      const turnScore = calculateTurnScore(player.guesses, state.secretWord);
+      const finalUpdatedPlayer = {
+        ...player,
+        score: player.score + turnScore,
+      };
+
+      set({
+        [currentPlayer]: finalUpdatedPlayer,
+      });
+
+      // Show answer dialog since they didn't complete the word
+      get().openAnswerDialog(currentPlayer);
+    }
   },
 }));

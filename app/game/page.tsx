@@ -9,6 +9,7 @@ import { OnScreenKeyboard } from "@/components/on-screen-keyboard";
 import { AnswerRevealDialog } from "@/components/answer-reveal-dialog";
 import { CorrectGuessDialog } from "@/components/correct-guess-dialog";
 import { DebugAnswerKey } from "@/components/debug-answer-key";
+import { TurnTimer } from "@/components/turn-timer";
 
 export default function GamePage() {
   const {
@@ -123,6 +124,10 @@ export default function GamePage() {
           currentRound={currentRound}
           maxRounds={maxRounds}
         />
+
+        {/* Turn Timer */}
+
+        <TurnTimer className="mb-4" />
 
         <WordGrid
           currentGuess={currentPlayerState.currentGuess}

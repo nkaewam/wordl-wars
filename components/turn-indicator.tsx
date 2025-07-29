@@ -21,7 +21,7 @@ export function TurnIndicator({
   player1Score,
   player2Score,
   currentRound,
-  maxRounds = 5,
+  maxRounds = 3,
   className,
 }: TurnIndicatorProps) {
   const isPlayer1Turn = currentPlayer === "player1";

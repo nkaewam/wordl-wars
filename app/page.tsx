@@ -21,8 +21,14 @@ export default function Home() {
         </div>
 
         {/* Game Info */}
-        <div className="text-center text-sm text-muted-foreground mt-8">
+        {/* <div className="text-center text-sm text-muted-foreground mt-8">
           3 rounds • 6 guesses per round • Best score wins!
+        </div> */}
+
+        {/* Footer */}
+        <div className="text-center text-sm text-muted-foreground mt-12">
+          <div>made with &lt;3 from Tontan for Ploycheeze</div>
+          <div className="mt-1">🐕 🐱</div>
         </div>
       </div>
     </main>

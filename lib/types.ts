@@ -82,6 +82,11 @@ export interface GameState {
   turnHistory: TurnHistory[];
   currentTurnNumber: number;
 
+  // Timer state
+  turnTimeLimit: number; // in seconds
+  timeRemaining: number; // in seconds
+  isTimerActive: boolean;
+
   // UI state
   isLoading: boolean;
   error: string | null;
@@ -102,6 +107,13 @@ export interface GameActions {
   submitGuess: (guess: string) => void;
   updateCurrentGuess: (guess: string) => void;
   nextTurn: () => void;
+
+  // Timer actions
+  startTimer: () => void;
+  stopTimer: () => void;
+  resetTimer: () => void;
+  updateTimeRemaining: (time: number) => void;
+  handleTimeExpired: () => void;
 
   // Player management
   setCurrentPlayer: (player: Player) => void;
