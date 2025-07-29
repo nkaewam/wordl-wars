@@ -285,14 +285,6 @@ export default function ResultPage() {
                           {turn.player2Turn.answerKey}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">
-                          Guesses used:
-                        </span>
-                        <span className="font-medium">
-                          {turn.player2Turn.guesses.length}/6
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
