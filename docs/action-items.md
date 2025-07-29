@@ -18,10 +18,10 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 
 - [x] Install shadcn/ui and add **InputOTP** component (`pnpm dlx shadcn@latest add input-otp`). - **COMPLETED**: Installed shadcn/ui and InputOTP component successfully.
 - [x] Create `WordGrid` wrapper around `InputOTP` to display 5-letter word guesses. - **COMPLETED**: Created WordGrid component with proper styling and tile state support.
-- [ ] Apply custom styles/theme to match game colors (🟩, 🟨, ⬛).
-- [ ] `OnScreenKeyboard` with clickable keys + key state coloring.
-- [ ] `TurnIndicator` showing current player and round.
-- [ ] Global CSS variables & basic theme colors.
+- [x] Apply custom styles/theme to match game colors (🟩, 🟨, ⬛).
+- [x] `OnScreenKeyboard` with clickable keys + key state coloring. - **COMPLETED**: Created OnScreenKeyboard component with QWERTY layout, clickable keys, and state-based coloring (correct=green, present=yellow, absent=gray).
+- [x] `TurnIndicator` showing current player and round. - **COMPLETED**: Created TurnIndicator component displaying current player, round progress, and visual turn indicators with smooth transitions.
+- [x] Global CSS variables & basic theme colors. - **COMPLETED**: Added Wordle Wars game colors to global CSS including tile states, keyboard colors, and player theme colors.
 
 ## M3 – Lobby Screen
 
