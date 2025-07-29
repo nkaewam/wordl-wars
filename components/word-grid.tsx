@@ -90,7 +90,7 @@ export function WordGrid({
                   key={colIndex}
                   index={colIndex}
                   className={cn(
-                    "h-12 w-12 text-lg font-bold border-2 transition-all duration-200",
+                    "size-14 text-lg font-bold border-2 transition-all duration-200",
                     getTileStateColor(rowIndex, colIndex),
                     !isRowEditable(rowIndex) && "opacity-50"
                   )}

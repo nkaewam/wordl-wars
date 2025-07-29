@@ -7,6 +7,8 @@ interface TurnIndicatorProps {
   currentPlayer: "player1" | "player2";
   player1Name: string;
   player2Name: string;
+  player1Score: number;
+  player2Score: number;
   currentRound: number;
   maxRounds?: number;
   className?: string;
@@ -16,6 +18,8 @@ export function TurnIndicator({
   currentPlayer,
   player1Name,
   player2Name,
+  player1Score,
+  player2Score,
   currentRound,
   maxRounds = 5,
   className,
@@ -38,16 +42,18 @@ export function TurnIndicator({
           className={cn(
             "flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-300",
             isPlayer1Turn
-              ? "border-blue-500 bg-blue-50 shadow-lg"
+              ? "border-blue-500 bg-blue-50 shadow-lg scale-110"
               : "border-gray-200 bg-gray-50"
           )}
         >
-          <div
+          <span
             className={cn(
-              "w-3 h-3 rounded-full mb-2 transition-all duration-300",
-              isPlayer1Turn ? "bg-blue-500" : "bg-gray-300"
+              "text-lg font-bold transition-colors duration-300",
+              isPlayer1Turn ? "text-blue-600" : "text-gray-500"
             )}
-          />
+          >
+            {player1Score}
+          </span>
           <span
             className={cn(
               "font-semibold text-sm transition-colors duration-300",
@@ -56,11 +62,6 @@ export function TurnIndicator({
           >
             {player1Name}
           </span>
-          {isPlayer1Turn && (
-            <span className="text-xs text-blue-600 mt-1 font-medium">
-              Your turn
-            </span>
-          )}
         </div>
 
         {/* VS indicator */}
@@ -71,16 +72,18 @@ export function TurnIndicator({
           className={cn(
             "flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-300",
             !isPlayer1Turn
-              ? "border-purple-500 bg-purple-50 shadow-lg"
+              ? "border-purple-500 bg-purple-50 shadow-lg scale-110"
               : "border-gray-200 bg-gray-50"
           )}
         >
-          <div
+          <span
             className={cn(
-              "w-3 h-3 rounded-full mb-2 transition-all duration-300",
-              !isPlayer1Turn ? "bg-purple-500" : "bg-gray-300"
+              "text-lg font-bold transition-colors duration-300",
+              !isPlayer1Turn ? "text-purple-600" : "text-gray-500"
             )}
-          />
+          >
+            {player2Score}
+          </span>
           <span
             className={cn(
               "font-semibold text-sm transition-colors duration-300",
@@ -89,6 +92,7 @@ export function TurnIndicator({
           >
             {player2Name}
           </span>
+
           {!isPlayer1Turn && (
             <span className="text-xs text-purple-600 mt-1 font-medium">
               Your turn

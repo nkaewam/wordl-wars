@@ -120,7 +120,7 @@ export function OnScreenKeyboard({
               onClick={() => handleKeyClick(key)}
               disabled={disabled || (key === "ENTER" && isEnterDisabled)}
               className={cn(
-                "h-12 px-2 rounded-md font-semibold border-2 transition-all duration-200 select-none flex justify-center items-center",
+                "size-12 px-2 rounded-md font-semibold border-2 transition-all duration-200 select-none flex justify-center items-center",
                 getKeyWidth(key),
                 getKeyStateColor(key),
                 (disabled || (key === "ENTER" && isEnterDisabled)) &&

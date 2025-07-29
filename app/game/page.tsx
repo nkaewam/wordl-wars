@@ -114,6 +114,8 @@ export default function GamePage() {
           currentPlayer={currentPlayer}
           player1Name={player1Name}
           player2Name={player2Name}
+          player1Score={player1.score}
+          player2Score={player2.score}
           currentRound={currentRound}
           maxRounds={maxRounds}
         />
