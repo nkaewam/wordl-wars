@@ -42,19 +42,19 @@ export function WordGrid({
       rowIndex >= tileStates.length ||
       colIndex >= tileStates[rowIndex]?.length
     ) {
-      return "bg-white border-gray-300 text-gray-900";
+      return "bg-card border-border text-foreground";
     }
 
     const state = tileStates[rowIndex][colIndex];
     switch (state) {
       case "correct":
-        return "bg-green-500 border-green-500 text-white";
+        return "bg-accent border-accent text-accent-foreground";
       case "present":
-        return "bg-yellow-500 border-yellow-500 text-white";
+        return "bg-primary border-primary text-primary-foreground";
       case "absent":
-        return "bg-gray-500 border-gray-500 text-white";
+        return "bg-muted border-muted text-muted-foreground";
       default:
-        return "bg-white border-gray-300 text-gray-900";
+        return "bg-card border-border text-foreground";
     }
   };
 

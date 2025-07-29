@@ -88,18 +88,18 @@ export function OnScreenKeyboard({
   const getKeyStateColor = (key: string): string => {
     const state = keyStates[key];
     if (!state) {
-      return "bg-gray-200 hover:bg-gray-300 text-gray-900 border-gray-300";
+      return "bg-card hover:bg-card/80 text-foreground border-border";
     }
 
     switch (state) {
       case "correct":
-        return "bg-green-300 hover:bg-green-400 text-white border-green-300";
+        return "bg-accent hover:bg-accent/80 text-accent-foreground border-accent";
       case "present":
-        return "bg-yellow-300 hover:bg-yellow-400 text-white border-yellow-300";
+        return "bg-primary hover:bg-primary/80 text-primary-foreground border-primary";
       case "absent":
-        return "bg-gray-500 hover:bg-gray-600 text-white border-gray-500";
+        return "bg-muted hover:bg-muted/80 text-muted-foreground border-muted";
       default:
-        return "bg-gray-200 hover:bg-gray-300 text-gray-900 border-gray-300";
+        return "bg-card hover:bg-card/80 text-foreground border-border";
     }
   };
 

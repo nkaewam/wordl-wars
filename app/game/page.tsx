@@ -104,7 +104,7 @@ export default function GamePage() {
   const keyStates = calculateKeyStates();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background">
       <DebugAnswerKey secretWord={secretWord} />
       <div className="z-10 max-w-4xl w-full items-center justify-center font-mono text-sm lg:flex flex-col gap-8">
         {/* Game Header */}

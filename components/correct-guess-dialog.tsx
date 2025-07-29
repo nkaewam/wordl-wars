@@ -25,7 +25,7 @@ export function CorrectGuessDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-green-600">
+          <AlertDialogTitle className="text-accent">
             Congratulations!
           </AlertDialogTitle>
           <AlertDialogDescription>

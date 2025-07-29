@@ -33,9 +33,9 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 ## M4 – Gameplay Integration & Scoreboard
 
 - [x] Initialize GameContext with secret word and round state. - **COMPLETED**: Added useEffect to initialize game with secret word and round state, integrated WordGrid and OnScreenKeyboard components with proper game state management.
-- [ ] Alternate active player after each turn completion.
-- [ ] Hook up `WordGrid`, `OnScreenKeyboard`, scoring logic.
-- [ ] `ScoreBoard` component displaying cumulative scores.
+- [x] Alternate active player after each turn completion.
+- [x] Hook up `WordGrid`, `OnScreenKeyboard`, scoring logic.
+- [x] `ScoreBoard` component displaying cumulative scores. - **COMPLETED**: Created comprehensive ScoreBoard component with cumulative scores, round-by-round breakdown, winner indicators, and game progress bar.
 - [x] Handle end-of-round transitions and reset grid.
 
 ## M5 – Result Screen
@@ -48,7 +48,6 @@ This document breaks down each milestone from `docs/task.md` into actionable tas
 ## M6 – Polish & Accessibility
 
 - [ ] Tile flip/slide and keyboard press animations.
-- [ ] Implement color-blind friendly mode toggle.
 - [ ] Responsive layouts (mobile portrait → desktop wide).
 
 ## M7 – Offline & PWA Enhancements

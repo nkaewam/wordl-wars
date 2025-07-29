@@ -91,7 +91,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
             name="player1Name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">
+                <FormLabel className="text-sm font-medium text-card-foreground">
                   Player 1 Name
                 </FormLabel>
                 <FormControl>
@@ -101,8 +101,8 @@ export function LobbyForm({ className }: LobbyFormProps) {
                     maxLength={20}
                     disabled={isSubmitting}
                     className={cn(
-                      "px-4 py-3 h-10 text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent",
-                      "border-gray-300 bg-white hover:border-gray-400 focus:border-blue-500"
+                      "px-4 py-3 h-10 text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-accent focus:border-transparent",
+                      "border-border bg-input hover:border-primary focus:border-accent text-input-foreground"
                     )}
                   />
                 </FormControl>
@@ -113,9 +113,11 @@ export function LobbyForm({ className }: LobbyFormProps) {
 
           {/* VS Divider */}
           <div className="flex items-center justify-center">
-            <div className="flex-1 h-px bg-gray-300"></div>
-            <span className="px-4 text-lg font-bold text-gray-500">VS</span>
-            <div className="flex-1 h-px bg-gray-300"></div>
+            <div className="flex-1 h-px bg-border"></div>
+            <span className="px-4 text-lg font-bold text-muted-foreground">
+              VS
+            </span>
+            <div className="flex-1 h-px bg-border"></div>
           </div>
 
           {/* Player 2 Input */}
@@ -124,7 +126,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
             name="player2Name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700">
+                <FormLabel className="text-sm font-medium text-card-foreground">
                   Player 2 Name
                 </FormLabel>
                 <FormControl>
@@ -134,8 +136,8 @@ export function LobbyForm({ className }: LobbyFormProps) {
                     maxLength={20}
                     disabled={isSubmitting}
                     className={cn(
-                      "px-4 py-3 h-10 text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent",
-                      "border-gray-300 bg-white hover:border-gray-400 focus:border-purple-500"
+                      "px-4 py-3 h-10 text-lg font-medium border-2 transition-all duration-200 focus:ring-2 focus:ring-primary focus:border-transparent",
+                      "border-border bg-input hover:border-primary focus:border-primary text-input-foreground"
                     )}
                   />
                 </FormControl>
@@ -150,16 +152,16 @@ export function LobbyForm({ className }: LobbyFormProps) {
               type="submit"
               disabled={isSubmitting || !isValid}
               className={cn(
-                "w-full h-12 py-4 px-6 text-lg font-bold text-white rounded-xl transition-all duration-300 transform cursor-pointer",
-                "focus:outline-none focus:ring-4 focus:ring-blue-300/50",
+                "w-full h-12 py-4 px-6 text-lg font-bold text-primary-foreground rounded-xl transition-all duration-300 transform cursor-pointer",
+                "focus:outline-none focus:ring-4 focus:ring-primary/50",
                 "shadow-lg hover:shadow-xl active:shadow-md",
                 "border-0 relative overflow-hidden",
                 // Enhanced gradient and animations
                 isSubmitting || !isValid
-                  ? "bg-gray-400 cursor-not-allowed shadow-none hover:shadow-none"
+                  ? "bg-muted cursor-not-allowed shadow-none hover:shadow-none"
                   : [
-                      "bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600",
-                      "hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700",
+                      "bg-primary",
+                      "hover:bg-primary/90",
                       "hover:scale-[1.015] active:scale-[0.99]",
                       "animate-pulse-slow", // Custom pulse animation when valid
                     ]
@@ -167,7 +169,7 @@ export function LobbyForm({ className }: LobbyFormProps) {
             >
               {/* Animated background gradient */}
               {!isSubmitting && isValid && (
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 opacity-0 hover:opacity-20 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-accent opacity-0 hover:opacity-20 transition-opacity duration-300" />
               )}
 
               {/* Button content */}
