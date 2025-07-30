@@ -103,7 +103,7 @@ export default function GamePage() {
   const keyStates = calculateKeyStates();
 
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-background overflow-hidden">
+    <main className="h-[100dvh] flex flex-col items-center justify-center bg-background overflow-hidden">
       <DebugAnswerKey secretWord={secretWord} />
       <div className="z-10 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl flex flex-col items-center justify-center font-mono text-sm h-full gap-10">
         {/* Turn Indicator */}

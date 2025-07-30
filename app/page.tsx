@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="h-screen flex flex-col items-center justify-center gap-10 bg-background overflow-hidden">
+    <main className="h-[100dvh] flex flex-col items-center justify-center gap-10 bg-background overflow-hidden">
       <div className="z-10 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl items-center justify-center font-mono text-sm flex flex-col gap-10 sm:gap-14 md:gap-16 h-full">
         <Image
           src="/wordl-wars-transparent.webp"
