@@ -77,7 +77,9 @@ export function WordGrid({
   };
 
   return (
-    <div className={cn("flex flex-col gap-0.5 sm:gap-1 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-full justify-center", className)}>
+    <div
+      className={cn("flex flex-col gap-0.5 sm:gap-1 justify-center", className)}
+    >
       {Array.from({ length: 6 }, (_, rowIndex) => (
         <div key={rowIndex} className="flex justify-center">
           <InputOTP
@@ -94,7 +96,7 @@ export function WordGrid({
                   key={colIndex}
                   index={colIndex}
                   className={cn(
-                    "size-10 sm:size-12 md:size-14 lg:size-16 text-sm sm:text-base md:text-lg lg:text-xl rounded-sm font-bold border-2 sm:border-3 md:border-4 transition-all duration-200",
+                    "size-14 sm:size-16 md:size-18 lg:size-20 text-sm sm:text-base md:text-lg lg:text-xl rounded-sm font-bold border-2 sm:border-3 md:border-4 transition-all duration-200",
                     getTileStateColor(rowIndex, colIndex),
                     isRowEmpty(rowIndex) && "opacity-50"
                   )}

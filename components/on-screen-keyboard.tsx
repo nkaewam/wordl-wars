@@ -105,7 +105,7 @@ export function OnScreenKeyboard({
 
   const getKeyWidth = (key: string): string => {
     if (key === "ENTER") {
-      return "w-10 sm:w-12 md:w-14 lg:w-16";
+      return "w-12 sm:w-14 md:w-18 lg:w-20";
     }
     if (key === "BACKSPACE") {
       return "w-10 sm:w-12 md:w-14";
@@ -127,10 +127,7 @@ export function OnScreenKeyboard({
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "flex flex-col gap-0.5 sm:gap-1 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg",
-        className
-      )}
+      className={cn("flex flex-col gap-0.5 sm:gap-1 w-full", className)}
     >
       {KEYBOARD_LAYOUT.map((row, rowIndex) => (
         <div key={rowIndex} className="flex justify-center gap-0.5 sm:gap-1">
