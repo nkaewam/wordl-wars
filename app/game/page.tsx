@@ -22,6 +22,7 @@ export default function GamePage() {
     secretWord,
     player1,
     player2,
+    timeRemaining,
     showAnswerDialog,
     showCorrectGuessDialog,
     correctGuessPlayer,
@@ -45,7 +46,8 @@ export default function GamePage() {
     !currentPlayerState.guesses.some((guess) => {
       const evaluation = evaluateGuess(guess, secretWord);
       return evaluation.isCorrect;
-    });
+    }) &&
+    timeRemaining > 0; // Don't allow typing when time has expired
 
   const handleKeyPress = (key: string) => {
     if (!isCurrentPlayerTurn) return;
